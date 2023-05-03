@@ -11,5 +11,7 @@
             "username": "postgres",
             "password": "postgres"
         }
-    ]
+    ],
+    "omnisharp.enableImportCompletion": true,
+    "editor.formatOnSave": true,
 }
