@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5433,
+            "driver": "PostgreSQL",
+            "name": "Localhost Acadnet",
+            "group": "Acadnet",
+            "database": "acadnet",
+            "username": "postgres",
+            "password": "postgres"
+        }
+    ]
+}

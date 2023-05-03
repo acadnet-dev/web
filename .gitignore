@@ -1,6 +1,9 @@
+# dotnet ignore
 bin/
 obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-.data
+
+# Ignore data files created by running the Docker Compose setup locally
+/docker/data/
