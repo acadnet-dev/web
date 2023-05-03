@@ -2,16 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Acadnet.Data.Identity
 {
-    public class User
+    public class User : IdentityUser
     {
-        public string FirstName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = default!;
 
-        public string LastName { get; set; } = string.Empty;
-
-        public string? RefreshToken { get; set; }
-        public DateTime? RefreshTokenExpiryTime { get; set; }
+        public string LastName { get; set; } = default!;
     }
 }

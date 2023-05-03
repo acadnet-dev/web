@@ -1,4 +1,7 @@
 using Acadnet.Data;
+using Acadnet.Data.Identity;
+using Acadnet.Framework.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +16,9 @@ builder.Services.AddDbContext<Database>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Identity
+builder.Services.AddIdentityServices(builder.Configuration);
+
 var app = builder.Build();
 
 // Initialize database
@@ -20,6 +26,8 @@ using (var scope = app.Services.CreateScope())
 {
     var database = scope.ServiceProvider.GetRequiredService<Database>();
     database.Database.Migrate();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+    SeedData.Initialize(database, roleManager);
 }
 
 // Configure the HTTP request pipeline.
@@ -35,6 +43,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
