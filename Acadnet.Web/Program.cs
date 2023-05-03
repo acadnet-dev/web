@@ -14,7 +14,7 @@ builder.Services.AddDbContext<Database>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 // Identity
 builder.Services.AddIdentityServices(builder.Configuration);
