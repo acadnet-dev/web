@@ -1,0 +1,24 @@
+{
+  "name": "sassio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "browser-sync": "^2.27.7",
+    "cssnano": "^5.0.12",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-postcss": "^9.0.1",
+    "gulp-sass": "^5.0.0",
+    "postcss": "^8.4.4"
+  },
+  "dependencies": {
+    "node-sass": "^6.0.1"
+  }
+}
