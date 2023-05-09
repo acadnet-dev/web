@@ -45,6 +45,7 @@ namespace Acadnet.Framework.Services
                     options.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
 
                 })
+                // .AddGithub
                 .AddCookie();
         }
     }
