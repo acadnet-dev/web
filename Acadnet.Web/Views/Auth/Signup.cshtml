@@ -1,0 +1,37 @@
+@{
+    Layout = "_AuthLayout";
+}
+
+
+<section class="form-page js-mouse-move-container">
+    <div class="form-page__img bg-dark-1">
+        <div class="form-page-composition">
+            <div class="-bg"><img data-move="30" class="js-mouse-move" src="~/img/login/bg.png" alt="bg"></div>
+            <div class="-el-1"><img data-move="20" class="js-mouse-move" src="~/img/home-9/hero/bg.png" alt="image">
+            </div>
+            <div class="-el-2"><img data-move="40" class="js-mouse-move" src="~/img/home-9/hero/1.png" alt="icon"></div>
+            <div class="-el-3"><img data-move="40" class="js-mouse-move" src="~/img/home-9/hero/2.png" alt="icon"></div>
+            <div class="-el-4"><img data-move="40" class="js-mouse-move" src="~/img/home-9/hero/3.png" alt="icon"></div>
+        </div>
+    </div>
+
+    <div class="form-page__content lg:py-50">
+        <div class="container">
+            <div class="row justify-center items-center">
+                <div class="col-xl-6 col-lg-8">
+                    <div class="px-50 py-50 md:px-25 md:py-25 bg-white shadow-1 rounded-16">
+                        <h3 class="text-30 lh-13">Sign Up</h3>
+                        <p class="mt-10">Already have an account? <a asp-action="Login" asp-controller="Auth"
+                                class="text-purple-1">Log in</a></p>
+
+                        <div class="d-flex flex-column y-gap-20 items-start justify-between pt-20">
+                            <div><a asp-action="ExternalLogin" asp-controller="Auth" asp-route-provider="Google"
+                                    class="button -sm px-24 py-20 -outline-red-3 text-red-3 text-16"><i
+                                        class="fa-brands fa-google mr-5"></i>Sign Up with Google</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

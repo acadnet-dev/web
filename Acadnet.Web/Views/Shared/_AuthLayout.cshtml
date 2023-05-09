@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 
 <head>
@@ -9,6 +9,9 @@
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Notie.js -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="~/css/vendors.css" asp-append-version="true">
@@ -23,23 +26,23 @@
     </div>
     <!-- preloader end -->
 
-    <main class="main-content">
+    <main class="main-content bg-beige-1">
 
-        <partial name="_Header" />
+        <partial name="_AuthHeader" />
 
         <div class="content-wrapper  js-content-wrapper">
 
             @RenderBody()
-
-            <partial name="_Footer" />
         </div>
     </main>
 
     <!-- JavaScript -->
     <script src="https://kit.fontawesome.com/f239fff167.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/notie"></script>
     <script src="~/js/vendors.js"></script>
     <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <partial name="_ModelStatePopup" />
 </body>
 
 </html>

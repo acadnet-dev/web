@@ -1,0 +1,34 @@
+@{
+    var errors = new List<string>();
+    if (TempData["Error"] is List<string>)
+        errors = (List<string>)TempData["Error"]!;
+    if (TempData["Error"] is string[])
+        errors = ((string[])TempData["Error"]!).ToList();
+    var success = new List<string>();
+    if (TempData["Success"] is List<string>)
+        success = (List<string>)TempData["Success"]!;
+    if (TempData["Success"] is string[])
+        success = ((string[])TempData["Success"]!).ToList();
+
+    // clear the temp data
+    TempData["Error"] = null;
+    TempData["Success"] = null;
+
+    // convert to string with new lines between each string
+    var errorsStr = string.Join("\n", errors);
+    var successStr = string.Join("\n", success);
+}
+
+@if (errors.Count > 0)
+{
+    <script>
+    notie.alert({type: 'error', text: '@errorsStr'});
+</script>
+}
+
+@if (success.Count > 0)
+{
+    <script>
+    notie.alert({type: 'success', text: '@successStr'});
+</script>
+}

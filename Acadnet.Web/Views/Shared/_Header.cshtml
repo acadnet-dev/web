@@ -1,3 +1,5 @@
+@using System.Security.Claims
+
 <header data-anim="fade" data-add-bg="bg-dark-1" class="header -type-1 js-header">
     <div class="header__container">
         <div class="row justify-between items-center">
@@ -6,11 +8,10 @@
                 <div class="header-left">
 
                     <div class="header__logo ">
-                        <a data-barba href="index.html">
+                        <a data-barba asp-action="Index" asp-controller="Home">
                             <img src="img/general/logo.svg" alt="logo">
                         </a>
                     </div>
-
 
                     <div class="header__explore text-green-1 ml-60 xl:ml-30 xl:d-none">
                         @* TODO add link *@
@@ -19,7 +20,6 @@
                             Explore problems
                         </a>
                     </div>
-
                 </div>
             </div>
 
@@ -28,15 +28,18 @@
                 <div class="header-menu__content">
                     <div class="mobile-bg js-mobile-bg"></div>
 
-                    <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
-                        <a href="login.html" class="text-dark-1">Log in</a>
-                        <a href="signup.html" class="text-dark-1 ml-30">Sign Up</a>
-                    </div>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
+                            <a asp-action="Login" asp-controller="Auth" class="text-dark-1">Log in</a>
+                            <a asp-action="Signup" asp-controller="Auth" class="text-dark-1 ml-30">Sign Up</a>
+                        </div>
+                    }
 
                     <div class="menu js-navList">
                         <ul class="menu__nav text-white -is-active">
                             <li>
-                                <a data-barba href="contact-1.html">Home</a>
+                                <a data-barba asp-action="Index" asp-controller="Home">Home</a>
                             </li>
                         </ul>
                     </div>
@@ -95,10 +98,56 @@
 
                     </div>
 
-                    <div class="header-right__buttons d-flex items-center ml-30 md:d-none">
-                        <a href="login.html" class="button -underline text-white">Log in</a>
-                        <a href="signup.html" class="button -sm -white text-dark-1 ml-30">Sign up</a>
-                    </div>
+                    @if (!SecurityContext.IsAuthenticated)
+                    {
+                        <div class="header-right__buttons d-flex items-center ml-30 md:d-none">
+                            <a asp-action="Login" asp-controller="Auth" class="button -underline text-white">Log in</a>
+                            <a asp-action="Signup" asp-controller="Auth" class="button -sm -white text-dark-1 ml-30">Sign
+                                up</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex items-center ml-10">
+                            <a href="#" data-el-toggle=".js-profile-toggle">
+                                <div class="d-flex flex-row items-center x-gap-5 rounded-8 user-header">
+                                    <div class="d-flex flex-row text-right pr-sm-3 xl:d-none pl-5">
+                                        <span class="text-white opac-70">@SecurityContext.User!.FirstName</span>&nbsp;
+                                        <span class="text-white">@SecurityContext.User!.LastName</span>
+                                    </div>
+                                    <span class="text-white d-flex items-center justify-center rounded-8"
+                                        style="height: 40px; width: 40px;"><i class="text-20 icon-person-3 ml-0"></i></span>
+                                </div>
+                            </a>
+
+                            <div class="toggle-element js-profile-toggle">
+                                <div
+                                    class="toggle-bottom -profile bg-white -dark-bg-dark-1 shadow-4 border-light rounded-8 mt-10">
+                                    <div class="px-30 py-30">
+
+                                        <div class="sidebar -dashboard">
+                                            <div class="sidebar__item ">
+                                                @* TODO add link *@
+                                                <a href="#" class="d-flex items-center text-17 lh-1 fw-500 ">
+                                                    <i class="text-20 icon-person-3 mr-15"></i>
+                                                    Profile
+                                                </a>
+                                            </div>
+
+                                            <div class="sidebar__item ">
+                                                <a asp-action="Logout" asp-controller="Auth"
+                                                    class="d-flex items-center text-17 lh-1 fw-500 ">
+                                                    <i class="text-20 icon-power mr-15"></i>
+                                                    Logout
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 

@@ -19,6 +19,12 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 // Identity
 builder.Services.AddIdentityServices(builder.Configuration);
 
+// Authentication
+builder.Services.AddAuthenticationServices(builder.Configuration);
+
+// Custom services
+builder.Services.AddCustomServices();
+
 var app = builder.Build();
 
 // Initialize database
