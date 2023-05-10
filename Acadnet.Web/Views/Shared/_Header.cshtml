@@ -28,7 +28,7 @@
                 <div class="header-menu__content">
                     <div class="mobile-bg js-mobile-bg"></div>
 
-                    @if (!User.Identity.IsAuthenticated)
+                    @if (!User.Identity?.IsAuthenticated ?? false)
                     {
                         <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
                             <a asp-action="Login" asp-controller="Auth" class="text-dark-1">Log in</a>
