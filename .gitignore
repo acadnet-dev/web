@@ -10,3 +10,6 @@ riderModule.iml
 
 # Ignore appsettings.json file
 appsettings.json
+
+# IDE
+.idea/
