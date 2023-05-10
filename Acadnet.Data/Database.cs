@@ -15,6 +15,9 @@ namespace Acadnet.Data
         {
         }
 
+        public DbSet<Category> Categories { get; set; } = default!;
+        public DbSet<Exercise> Exercises { get; set; } = default!;
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.HasDefaultSchema("data");
