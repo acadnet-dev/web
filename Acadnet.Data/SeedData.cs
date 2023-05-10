@@ -35,44 +35,44 @@ namespace Acadnet.Data
 
         public static void AddTestCategoriesAndExercises(Database context)
         {
-            var rootCategory = context.Categories.FirstOrDefault(c => c.Id == 1);
-            if (rootCategory != null)
+            var testCourse = context.Courses.FirstOrDefault(c => c.Id == 1);
+            if (testCourse != null)
                 return;
 
-            // add categories
-            var root = new Category
+            // add course
+            var course = new Course
             {
                 Id = 1,
                 Name = "Olimpiada Acadnet - Interoperabilitate software",
                 Description = "Olimpiada Acadnet - Interoperabilitate software",
             };
 
+            // seed course
+            context.Courses.Add(course);
+
+            // add categories
             var year = new Category
             {
-                Id = 2,
+                Id = 1,
                 Name = "2023",
-                Description = "2023",
-                Parent = root
+                Course = course
             };
 
             var stage = new Category
             {
-                Id = 3,
+                Id = 2,
                 Name = "Etapa locala",
-                Description = "Etapa locala",
                 Parent = year
             };
 
             var schoolYear = new Category
             {
-                Id = 4,
+                Id = 3,
                 Name = "9-10",
-                Description = "9-10",
                 Parent = stage
             };
 
             // seed categories
-            context.Categories.Add(root);
             context.Categories.Add(year);
             context.Categories.Add(stage);
             context.Categories.Add(schoolYear);

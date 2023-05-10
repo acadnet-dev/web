@@ -20,12 +20,14 @@
                   world-class universities and companies.
                 </p>
                 <div data-anim-child="slide-up delay-2" class="masthead__buttons row x-gap-10 y-gap-10">
+                  @if(!SecurityContext.IsAuthenticated) {
                   <div class="col-12 col-sm-auto">
                     <a data-barba href="signup.html" class="button -md -purple-1 text-white">Join For Free</a>
                   </div>
+                  }
                   <div class="col-12 col-sm-auto">
                     <a data-barba href="courses-list-1.html" class="button -md -outline-green-1 text-green-1">Find
-                      Courses</a>
+                      Problems</a>
                   </div>
                 </div>
                 <div data-anim-child="slide-up delay-3" class="masthead-info row y-gap-15 sm:d-none">
