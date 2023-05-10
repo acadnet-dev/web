@@ -17,6 +17,9 @@ namespace Acadnet.Framework.Services
         {
             // Custom services
             services.AddScoped<ISecurityContext, SecurityContext>();
+
+            // Course services
+            services.AddScoped<ICourseService, CourseService>();
         }
 
         public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
