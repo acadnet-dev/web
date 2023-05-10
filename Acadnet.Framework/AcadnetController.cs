@@ -13,7 +13,6 @@ namespace Acadnet.Framework
     {
         public AcadnetController()
         {
-            SecurityContext = (HttpContext.RequestServices.GetService(typeof(ISecurityContext)) as ISecurityContext)!;
         }
 
         protected void AddError(string message)
@@ -40,6 +39,6 @@ namespace Acadnet.Framework
                 ((string[])TempData["Success"]!).ToList().Add(message);
         }
 
-        protected ISecurityContext SecurityContext { get; }
+        protected ISecurityContext SecurityContext => (HttpContext.RequestServices.GetService(typeof(ISecurityContext)) as ISecurityContext)!;
     }
 }
