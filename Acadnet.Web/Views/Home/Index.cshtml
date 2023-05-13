@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+  ViewData["Title"] = "Home Page";
 }
 
 <section class="masthead -type-1 js-mouse-move-container">
@@ -20,13 +20,15 @@
             world-class universities and companies.
           </p>
           <div data-anim-child="slide-up delay-2" class="masthead__buttons row x-gap-10 y-gap-10">
-            @if(!SecurityContext.IsAuthenticated) {
-            <div class="col-12 col-sm-auto">
-              <a data-barba href="signup.html" class="button -md -purple-1 text-white">Join For Free</a>
-            </div>
+            @if (!SecurityContext.IsAuthenticated)
+            {
+              <div class="col-12 col-sm-auto">
+                <a data-barba href="signup.html" class="button -md -purple-1 text-white">Join For Free</a>
+              </div>
             }
             <div class="col-12 col-sm-auto">
-              <a data-barba asp-action="Index" asp-controller="Courses" class="button -md -outline-green-1 text-green-1">Find
+              <a data-barba asp-action="Index" asp-controller="Courses"
+                class="button -md -outline-green-1 text-green-1">Find
                 Problems</a>
             </div>
           </div>
