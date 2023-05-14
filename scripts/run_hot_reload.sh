@@ -1,2 +1,2 @@
 #!/bin/bash
-dotnet watch --project Acadnet.Web/
+dotnet watch --project Web/

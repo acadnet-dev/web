@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Acadnet.Web/Acadnet.Web.csproj",
+                "${workspaceFolder}/Web/Web.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Acadnet.Web/Acadnet.Web.csproj",
+                "${workspaceFolder}/Web/Web.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Acadnet.Web/Acadnet.Web.csproj"
+                "${workspaceFolder}/Web/Web.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

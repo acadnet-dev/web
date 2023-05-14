@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 #
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acadnet.Web", "Acadnet.Web\Acadnet.Web.csproj", "{BE943A43-8D8C-473D-9F56-F857AE73D8F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{BE943A43-8D8C-473D-9F56-F857AE73D8F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acadnet.Data", "Acadnet.Data\Acadnet.Data.csproj", "{2490BFE0-D845-46BD-B4D5-4E9AF3E3DED1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{2490BFE0-D845-46BD-B4D5-4E9AF3E3DED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acadnet.Framework", "Acadnet.Framework\Acadnet.Framework.csproj", "{A54A5079-4C4B-4051-8D48-8F79BE666BAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{A54A5079-4C4B-4051-8D48-8F79BE666BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

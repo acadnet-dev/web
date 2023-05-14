@@ -5,4 +5,4 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-dotnet ef migrations add $1 --project Acadnet.Data --startup-project Acadnet.Web
+dotnet ef migrations add $1 --project Data --startup-project Web

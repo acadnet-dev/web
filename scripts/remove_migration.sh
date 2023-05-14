@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet ef migrations remove --project Acadnet.Data --startup-project Acadnet.Web
+dotnet ef migrations remove --project Data --startup-project Web
