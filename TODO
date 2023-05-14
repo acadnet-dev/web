@@ -1,10 +1,20 @@
 
-Urgente:
+Dev:
   ✔ implement problem category hyerarchy @done(23-05-10 19:26)
-  ☐ romanian and english resource file and replace all text with resource file
-  ☐ UML db diagram - courses, category and exercise 
+  ☐ docker - add ftp server
+  ☐ add fluent api
+  ☐ define problem structure
+  ☐ add problem structure to db
+  ☐ upload problem page
+  ☐ problem view page
+  
+Not so important:
   ☐ add main page content
+
+Docs:
+  ☐ UML db diagram - courses, category and exercise 
 
 Nice features:
   ☐ course show number of problems
   ☐ course show estimated time to complete
+  ☐ different languages
