@@ -1,12 +1,14 @@
 
 Dev:
   ✔ implement problem category hyerarchy @done(23-05-10 19:26)
-  ☐ docker - add min.io server
-  ☐ add minio service
+  ✔ docker - add min.io server @done(23-05-22 18:14)
+  ✔ add minio service @done(23-05-22 18:14)
+  ☐ create course and categories and navigate through them
   ☐ define problem structure
-  ☐ add problem structure to db
+  ☐ add problem entity to db
   ☐ upload problem page
   ☐ problem view page
+  ☐ add breadcrumbs to courses and categories
   
 Not so important:
   ☐ add main page content
