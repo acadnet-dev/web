@@ -3,7 +3,7 @@ Dev:
   ✔ implement problem category hyerarchy @done(23-05-10 19:26)
   ✔ docker - add min.io server @done(23-05-22 18:14)
   ✔ add minio service @done(23-05-22 18:14)
-  ☐ create course and categories and navigate through them
+  ✔ create course and categories and navigate through them @done(23-05-22 21:54)
   ☐ define problem structure
   ☐ add problem entity to db
   ☐ upload problem page
