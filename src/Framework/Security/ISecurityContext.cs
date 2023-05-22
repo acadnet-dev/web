@@ -11,5 +11,7 @@ namespace Framework.Security
         bool IsAuthenticated { get; }
 
         User? User { get; }
+
+        bool UserHasRole(string role);
     }
 }

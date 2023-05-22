@@ -25,5 +25,13 @@ namespace Framework.Security
         public bool IsAuthenticated => User != null;
 
         public User? User => _userManager.GetUserAsync(_httpContext.HttpContext!.User).Result;
+
+        public bool UserHasRole(string role)
+        {
+            if (User == null)
+                return false;
+
+            return _userManager.IsInRoleAsync(User, role).Result;
+        }
     }
 }
