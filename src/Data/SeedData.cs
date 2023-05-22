@@ -29,6 +29,14 @@ namespace Data
                 roleManager.CreateAsync(adminRole).GetAwaiter().GetResult();
             }
 
+            // create ProblemAuthor role
+            var problemAuthorRole = roleManager.FindByNameAsync(UserRole.ProblemAuthor).Result;
+            if (problemAuthorRole == null)
+            {
+                problemAuthorRole = new Role(UserRole.ProblemAuthor);
+                roleManager.CreateAsync(problemAuthorRole).GetAwaiter().GetResult();
+            }
+
             // add test categories and exercises
             AddTestCategoriesAndExercises(context);
         }

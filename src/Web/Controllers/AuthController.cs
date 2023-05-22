@@ -92,9 +92,13 @@ namespace Web.Controllers
                     createResult = await _signInManager.UserManager.AddLoginAsync(user, info);
                     if (createResult.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, false);
-                        _logger.LogInformation($"User created an account using {info.LoginProvider} provider.");
-                        return RedirectToAction("Index", "Home");
+                        createResult = await _signInManager.UserManager.AddToRoleAsync(user, UserRole.User);
+                        if (createResult.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, false);
+                            _logger.LogInformation($"User created an account using {info.LoginProvider} provider.");
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
                 foreach (var error in createResult.Errors)

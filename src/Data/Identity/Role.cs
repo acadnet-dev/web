@@ -20,6 +20,7 @@ namespace Data.Identity
     public static class UserRole
     {
         public const string Admin = "Admin";
+        public const string ProblemAuthor = "ProblemAuthor";
         public const string User = "User";
     }
 }
