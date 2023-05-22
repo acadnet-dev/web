@@ -1,8 +1,8 @@
 
 Dev:
   ✔ implement problem category hyerarchy @done(23-05-10 19:26)
-  ☐ docker - add ftp server
-  ☐ add fluent api
+  ☐ docker - add min.io server
+  ☐ add minio service
   ☐ define problem structure
   ☐ add problem structure to db
   ☐ upload problem page
