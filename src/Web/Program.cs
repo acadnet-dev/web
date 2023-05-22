@@ -3,6 +3,7 @@ using Data.Identity;
 using Framework.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Web.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,12 @@ builder.Services.AddAuthenticationServices(builder.Configuration);
 
 // Custom services
 builder.Services.AddCustomServices();
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperConfigProfile));
+
+// Application cookie
+builder.Services.AddApplicationCookie();
 
 var app = builder.Build();
 

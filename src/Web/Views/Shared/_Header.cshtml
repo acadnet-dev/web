@@ -1,5 +1,3 @@
-@using System.Security.Claims
-
 <header data-anim="fade" data-add-bg="bg-dark-1" class="header -type-1 js-header">
     <div class="header__container">
         <div class="row justify-between items-center">
@@ -9,7 +7,7 @@
 
                     <div class="header__logo ">
                         <a data-barba asp-action="Index" asp-controller="Home">
-                            <img src="img/general/logo.svg" alt="logo">
+                            <img src="~/img/general/logo.svg" alt="logo">
                         </a>
                     </div>
 
@@ -28,7 +26,7 @@
                 <div class="header-menu__content">
                     <div class="mobile-bg js-mobile-bg"></div>
 
-                    @if (!User.Identity?.IsAuthenticated ?? false)
+                    @if (!SecurityContext.IsAuthenticated)
                     {
                         <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
                             <a asp-action="Login" asp-controller="Auth" class="text-dark-1">Log in</a>
@@ -41,6 +39,11 @@
                             <li>
                                 <a data-barba asp-action="Index" asp-controller="Home">Home</a>
                             </li>
+                            @if (SecurityContext.UserHasRole(UserRole.ProblemAuthor)) {
+                                <li>
+                                    <a data-barba asp-action="Index" asp-controller="Author">My problems</a>
+                                </li>
+                            }
                         </ul>
                     </div>
 

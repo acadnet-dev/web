@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Framework.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -40,5 +41,6 @@ namespace Framework
         }
 
         protected ISecurityContext SecurityContext => (HttpContext.RequestServices.GetService(typeof(ISecurityContext)) as ISecurityContext)!;
+        protected IMapper Mapper => (HttpContext.RequestServices.GetService(typeof(IMapper)) as IMapper)!;
     }
 }

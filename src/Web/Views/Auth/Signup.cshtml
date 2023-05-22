@@ -25,7 +25,7 @@
                                 class="text-purple-1">Log in</a></p>
 
                         <div class="d-flex flex-column y-gap-20 items-start justify-between pt-20">
-                            <div><a asp-action="ExternalLogin" asp-controller="Auth" asp-route-provider="Google"
+                            <div><a asp-action="ExternalLogin" asp-controller="Auth" asp-route-provider="Google" asp-route-returnUrl="@Model"
                                     class="button -sm px-24 py-20 -outline-red-3 text-red-3 text-16"><i
                                         class="fa-brands fa-google mr-5"></i>Sign Up with Google</a></div>
                         </div>

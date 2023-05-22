@@ -9,5 +9,6 @@ namespace Framework.Services
     public interface ICourseService
     {
         public ICollection<Course> GetCourses();
+        public void CreateCourse(Course course);
     }
 }

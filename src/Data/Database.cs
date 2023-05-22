@@ -24,6 +24,8 @@ namespace Data
             builder.HasDefaultSchema("data");
 
             base.OnModelCreating(builder);
+
+            builder.Entity<Course>().HasMany(c => c.Maintainers).WithMany(u => u.MaintainedCourses);
         }
     }
 }

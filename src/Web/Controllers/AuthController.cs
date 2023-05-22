@@ -31,14 +31,14 @@ namespace Web.Controllers
             return RedirectToAction("Login");
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = default!)
         {
-            return View();
+            return View(nameof(Login), returnUrl);
         }
 
-        public IActionResult Signup()
+        public IActionResult Signup(string returnUrl = default!)
         {
-            return View();
+            return View(nameof(Signup), returnUrl);
         }
 
         public IActionResult Logout()
@@ -61,24 +61,25 @@ namespace Web.Controllers
             if (remoteError != null)
             {
                 _logger.LogError($"Error from external provider: {remoteError}");
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", new { ReturnUrl = returnUrl });
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 _logger.LogError("Error loading external login information.");
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", new { ReturnUrl = returnUrl });
             }
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
             if (result.Succeeded)
             {
                 _logger.LogInformation($"User logged in with {info.LoginProvider} provider.");
-                return RedirectToAction("Index", "Home");
+                // redirect to returnUrl
+                return Redirect(returnUrl ?? "/");
             }
             if (result.IsLockedOut)
             {
                 _logger.LogError("User account locked out.");
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", new { ReturnUrl = returnUrl });
             }
             else
             {
@@ -97,7 +98,8 @@ namespace Web.Controllers
                         {
                             await _signInManager.SignInAsync(user, false);
                             _logger.LogInformation($"User created an account using {info.LoginProvider} provider.");
-                            return RedirectToAction("Index", "Home");
+                            // redirect to returnUrl
+                            return Redirect(returnUrl ?? "/");
                         }
                     }
                 }
@@ -105,7 +107,7 @@ namespace Web.Controllers
                 {
                     AddError(error.Description);
                 }
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", new { ReturnUrl = returnUrl });
             }
         }
         #endregion

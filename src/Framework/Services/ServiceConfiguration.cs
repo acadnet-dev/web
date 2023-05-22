@@ -58,5 +58,15 @@ namespace Framework.Services
             // Settings
             services.Configure<MinioSettings>(configuration.GetSection("Minio"));
         }
+
+        public static void AddApplicationCookie(this IServiceCollection services)
+        {
+            // Application cookie
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Auth/Login";
+                options.LogoutPath = "/Auth/Logout";
+            });
+        }
     }
 }

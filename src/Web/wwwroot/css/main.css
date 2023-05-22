@@ -16710,3 +16710,7 @@ table.table td {
     transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 }
+
+.notie-container {
+  z-index: 100;
+}

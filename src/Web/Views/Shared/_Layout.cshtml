@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <!-- Notie.js -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="~/css/vendors.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/main.css" asp-append-version="true">
@@ -37,9 +40,11 @@
 
     <!-- JavaScript -->
     <script src="https://kit.fontawesome.com/f239fff167.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/notie"></script>
     <script src="~/js/vendors.js"></script>
     <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <partial name="_ModelStatePopup" />
 </body>
 
 </html>
