@@ -116,7 +116,7 @@ public class CoursesController : AcadnetController
 
         var _category = new Category { Name = model.Name };
 
-        _courseService.CreateCategory(_course, _category);
+        _courseService.CreateCategory(_course, _category, model.CategoryParentId);
 
         AddSuccess("Category created successfully!");
 
