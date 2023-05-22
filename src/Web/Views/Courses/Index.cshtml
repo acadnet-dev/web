@@ -33,7 +33,7 @@
       <div class="row">
         <div class="col-auto">
           <div data-anim="slide-up delay-1">
-            <h1 class="page-header__title">Explore problems</h1>
+            <h1 class="page-header__title">Select a course and start practicing</h1>
           </div>
         </div>
       </div>
@@ -46,7 +46,8 @@
   <div data-anim="slide-up delay-2" class="container">
     <div class="row y-gap-20 items-center justify-between pb-30">
       <div class="col-auto">
-        @if(SecurityContext.UserHasRole(UserRole.ProblemAuthor)){
+        @if (SecurityContext.UserHasRole(UserRole.ProblemAuthor))
+        {
           <a class="button -md -yellow-1 text-white -icon" asp-action="Create" asp-controller="Courses">Add course
             <i class="fas fa-plus ml-10"></i>
           </a>
@@ -61,7 +62,8 @@
       @foreach (var course in Model)
       {
         <div class="col-12 border-bottom-light">
-          <a href="#" class="coursesCard -type-1 row y-gap-20 flex-row items-center">
+          <a asp-action="Categories" asp-route-courseId="@course.Id"
+            class="coursesCard -type-1 row y-gap-20 flex-row items-center">
             <div class="col-xl-3 col-lg-4">
               <div class="coursesCard__image rounded-8 relative">
                 <img class="w-1/1 rounded-8" src="~/img/coursesCards/1.png" alt="image">

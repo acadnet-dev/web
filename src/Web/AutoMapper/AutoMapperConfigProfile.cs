@@ -19,6 +19,9 @@ namespace Web.AutoMapper
         {
             CreateMap<Course, CourseViewModel>();
             CreateMap<CreateCourseViewModel, Course>();
+
+            CreateMap<Category, CategoryViewModel>();
+            CreateMap<CreateCategoryViewModel, Category>();
         }
     }
 }

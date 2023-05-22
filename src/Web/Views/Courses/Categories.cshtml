@@ -1,0 +1,105 @@
+@model CategoriesViewModel
+
+@using Framework.Services
+@inject ICourseService CourseService
+
+@{
+  ViewData["Title"] = "Explore problems";
+}
+
+<section data-anim="fade" class="breadcrumbs ">
+  <div class="container">
+    <div class="row">
+      <div class="col-auto">
+        <div class="breadcrumbs__content">
+
+          <div class="breadcrumbs__item ">
+            <a href="#">Home</a>
+          </div>
+
+          <div class="breadcrumbs__item ">
+            <a href="#">Courses</a>
+          </div>
+
+          @* TODO: add breadcrumbs *@
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="page-header -type-1">
+  <div class="container">
+    <div class="page-header__content">
+      <div class="row">
+        <div class="col-auto">
+          <div data-anim="slide-up delay-1">
+            <h1 class="page-header__title">@Model.CourseName</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="layout-pt-md layout-pb-lg">
+  <div data-anim-wrap class="container">
+    <div data-anim="slide-up delay-1" class="accordion js-accordion">
+      <div class="row y-gap-20 items-center justify-between pb-30">
+        <div class="col-auto">
+          <div class="text-14 lh-12">Showing <span class="text-dark-1 fw-500">@Model.Categories.Count</span> total
+            results</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row y-gap-30">
+      @foreach (var category in Model.Categories)
+      {
+        <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
+          <a asp-action="Categories" asp-route-courseId="@Model.CourseId" asp-route-categoryParent="@category.Id"
+            class="coursesCard -type-1 rounded-8 bg-purple-5 shadow-4">
+            <div class="h-100 pt-20 pb-15 px-30 row justify-content-between">
+              <div class="col-auto text-20 lh-15 fw-500 text-dark-1 mt-10">@category.Name</div>
+              <div class="col-auto">
+                <button class="button -md -outline-purple-1 text-purple-1 -icon">Explore
+                  <i class="icon-arrow-top-right text-13 ml-10"></i>
+                </button>
+              </div>
+
+            </div>
+          </a>
+
+        </div>
+      }
+
+      @if (SecurityContext.IsAuthenticated && CourseService.IsMaintainer(Model.CourseId, SecurityContext.User!))
+      {
+        <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
+          <div class="coursesCard -type-1 rounded-8 bg-yellow-5 shadow-4">
+            <div class="row">
+              <div class="col-auto">
+                <div class="px-30 text-12 text-dark-1 mt-10">Because you are a maintainer, you can
+                </div>
+              </div>
+            </div>
+            <div class="h-100 pt-20 pb-15 px-30 row justify-content-between">
+              <div class="col-auto">
+                <a asp-action="CreateCategory" asp-route-courseId="@Model.CourseId"
+                  asp-route-categoryParent="@Model.CategoryParent" class="button -sm -purple-1 text-white -icon">Add
+                  category</a>
+              </div>
+              <div class="col-auto">
+                <a class="button -sm -green-4 text-white -icon">Add problem</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

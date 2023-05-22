@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
+using Data.Identity;
 using Data.Models;
 using Framework.Security;
 
@@ -22,6 +23,16 @@ namespace Framework.Services
             _securityContext = securityContext;
         }
 
+        public void CreateCategory(Course course, Category category, int? parentCategoryId = null)
+        {
+            category.Course = course;
+            category.Parent = _database.Categories.Find(parentCategoryId);
+
+            _database.Categories.Add(category);
+
+            _database.SaveChanges();
+        }
+
         public void CreateCourse(Course course)
         {
             course.Maintainers.Add(_securityContext.User!);
@@ -29,6 +40,18 @@ namespace Framework.Services
             _database.Courses.Add(course);
 
             _database.SaveChanges();
+        }
+
+        public ICollection<Category> GetCategories(Course course, int? categoryParentId = null)
+        {
+            return _database.Categories.AsQueryable()
+                .Where(c => c.Course == course)
+                .Where(c => c.Parent!.Id == categoryParentId).ToList();
+        }
+
+        public Course? GetCourse(int courseId)
+        {
+            return _database.Courses.Find(courseId);
         }
 
         public ICollection<Course> GetCourses(string? filterMaintainer = default!)
@@ -41,6 +64,13 @@ namespace Framework.Services
             }
 
             return _query.ToList();
+        }
+
+        public bool IsMaintainer(int courseId, User user)
+        {
+            return _database.Courses.AsQueryable()
+                .Where(c => c.Id == courseId)
+                .Any(c => c.Maintainers.Any(m => m.Id == user.Id));
         }
     }
 }
