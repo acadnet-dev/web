@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Port config, if not ran by IISExpress
 builder.WebHost.UseUrls(builder.Configuration["Urls"]!);
 
+// Settings
+builder.Services.AddSettings(builder.Configuration);
+
 // Database
 builder.Services.AddDbContext<Database>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

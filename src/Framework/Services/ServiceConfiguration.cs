@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Data.Identity;
+using Data.Settings;
 using Framework.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -50,6 +51,12 @@ namespace Framework.Services
                 })
                 // .AddGithub
                 .AddCookie();
+        }
+
+        public static void AddSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Settings
+            services.Configure<MinioSettings>(configuration.GetSection("Minio"));
         }
     }
 }
