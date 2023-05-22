@@ -13,6 +13,7 @@ namespace Framework.Services
         public Course? GetCourse(int courseId);
         public void CreateCourse(Course course);
         public ICollection<Category> GetCategories(Course course, int? categoryParentId = default!);
+        public Category? GetCategory(int categoryId);
         public bool IsMaintainer(int courseId, User user);
         public void CreateCategory(Course course, Category category, int? parentCategoryId = default!);
     }

@@ -36,7 +36,8 @@
       <div class="row">
         <div class="col-auto">
           <div data-anim="slide-up delay-1">
-            <h1 class="page-header__title">@Model.CourseName</h1>
+            <h1 class="mb-10">@Model.CourseName</h1>
+            <h3 class="text-purple-4">@Model.CategoryName</h4>
           </div>
         </div>
       </div>
@@ -48,6 +49,12 @@
 <section class="layout-pt-md layout-pb-lg">
   <div data-anim-wrap class="container">
     <div data-anim="slide-up delay-1" class="accordion js-accordion">
+      <div class="row mb-10">
+        <div class="col-auto">
+          <a href="javascript:history.back()" class="button -sm -purple-1 text-white -icon">
+            <i class="fas fa-backward text-13 mr-10"></i>Go back</a>
+        </div>
+      </div>
       <div class="row y-gap-20 items-center justify-between pb-30">
         <div class="col-auto">
           <div class="text-14 lh-12">Showing <span class="text-dark-1 fw-500">@Model.Categories.Count</span> total
@@ -93,7 +100,7 @@
                   category</a>
               </div>
               <div class="col-auto">
-                <a class="button -sm -green-4 text-white -icon">Add problem</a>
+                <a class="button -sm -yellow-1 text-white -icon">Add problem</a>
               </div>
 
             </div>

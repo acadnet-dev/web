@@ -66,6 +66,20 @@ public class CoursesController : AcadnetController
             return NotFound();
         }
 
+        var categoryName = string.Empty;
+        if (categoryParent != null)
+        {
+            var _category = _courseService.GetCategory(categoryParent.Value);
+
+            if (_category == null)
+            {
+                return NotFound();
+            }
+
+            categoryName = _category.Name;
+        }
+
+
         var _categories = _courseService.GetCategories(_course, categoryParent);
 
         return View(new CategoriesViewModel
@@ -73,7 +87,8 @@ public class CoursesController : AcadnetController
             CourseId = _course.Id,
             CourseName = _course.Name,
             Categories = Mapper.Map<List<CategoryViewModel>>(_categories),
-            CategoryParent = categoryParent
+            CategoryParent = categoryParent,
+            CategoryName = categoryName
         });
     }
 

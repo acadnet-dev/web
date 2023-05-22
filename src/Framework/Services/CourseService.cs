@@ -49,6 +49,11 @@ namespace Framework.Services
                 .Where(c => c.Parent!.Id == categoryParentId).ToList();
         }
 
+        public Category? GetCategory(int categoryId)
+        {
+            return _database.Categories.Find(categoryId);
+        }
+
         public Course? GetCourse(int courseId)
         {
             return _database.Courses.Find(courseId);

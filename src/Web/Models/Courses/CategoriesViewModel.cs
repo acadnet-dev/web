@@ -11,6 +11,7 @@ namespace Web.Models.Courses
         public int CourseId { get; set; } = default!;
         public string CourseName { get; set; } = default!;
         public int? CategoryParent { get; set; } = default!;
+        public string CategoryName { get; set; } = default!;
 
         public ICollection<CategoryViewModel> Categories { get; set; } = default!;
     }
