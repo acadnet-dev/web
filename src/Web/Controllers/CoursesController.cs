@@ -23,9 +23,9 @@ public class CoursesController : AcadnetController
         _courseService = courseService;
     }
 
-    public IActionResult Index()
+    public IActionResult Index([FromQuery] string? filterMaintainer = default!)
     {
-        var _courses = _courseService.GetCourses();
+        var _courses = _courseService.GetCourses(filterMaintainer);
 
         return View(Mapper.Map<List<CourseViewModel>>(_courses));
     }

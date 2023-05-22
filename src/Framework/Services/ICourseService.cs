@@ -8,7 +8,7 @@ namespace Framework.Services
 {
     public interface ICourseService
     {
-        public ICollection<Course> GetCourses();
+        public ICollection<Course> GetCourses(string? filterMaintainer = default!);
         public void CreateCourse(Course course);
     }
 }

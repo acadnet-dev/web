@@ -41,7 +41,7 @@
                             </li>
                             @if (SecurityContext.UserHasRole(UserRole.ProblemAuthor)) {
                                 <li>
-                                    <a data-barba asp-action="Index" asp-controller="Author">My problems</a>
+                                    <a data-barba asp-action="Index" asp-controller="Courses" asp-route-filterMaintainer="@SecurityContext.User.UserName">My problems</a>
                                 </li>
                             }
                         </ul>

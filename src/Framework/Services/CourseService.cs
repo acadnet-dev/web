@@ -31,9 +31,16 @@ namespace Framework.Services
             _database.SaveChanges();
         }
 
-        public ICollection<Course> GetCourses()
+        public ICollection<Course> GetCourses(string? filterMaintainer = default!)
         {
-            return _database.Courses.ToList();
+            var _query = _database.Courses.AsQueryable();
+
+            if (filterMaintainer != null)
+            {
+                _query = _query.Where(c => c.Maintainers.Any(m => m.UserName == filterMaintainer));
+            }
+
+            return _query.ToList();
         }
     }
 }
