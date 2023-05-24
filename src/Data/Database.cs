@@ -17,7 +17,7 @@ namespace Data
 
         public DbSet<Course> Courses { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
-        public DbSet<Exercise> Exercises { get; set; } = default!;
+        public DbSet<Problem> Problems { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

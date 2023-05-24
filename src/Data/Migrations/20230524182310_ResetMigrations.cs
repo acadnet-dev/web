@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitIdentity : Migration
+    public partial class ResetMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,6 +56,22 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Courses",
+                schema: "data",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,6 +191,85 @@ namespace Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                schema: "data",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CourseId = table.Column<int>(type: "integer", nullable: true),
+                    ParentId = table.Column<int>(type: "integer", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Categories_ParentId",
+                        column: x => x.ParentId,
+                        principalSchema: "data",
+                        principalTable: "Categories",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Categories_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalSchema: "data",
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseUser",
+                schema: "data",
+                columns: table => new
+                {
+                    MaintainedCoursesId = table.Column<int>(type: "integer", nullable: false),
+                    MaintainersId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseUser", x => new { x.MaintainedCoursesId, x.MaintainersId });
+                    table.ForeignKey(
+                        name: "FK_CourseUser_AspNetUsers_MaintainersId",
+                        column: x => x.MaintainersId,
+                        principalSchema: "data",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseUser_Courses_MaintainedCoursesId",
+                        column: x => x.MaintainedCoursesId,
+                        principalSchema: "data",
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Problems",
+                schema: "data",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CategoryId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Problems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Problems_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalSchema: "data",
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 schema: "data",
@@ -218,6 +313,30 @@ namespace Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_CourseId",
+                schema: "data",
+                table: "Categories",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ParentId",
+                schema: "data",
+                table: "Categories",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseUser_MaintainersId",
+                schema: "data",
+                table: "CourseUser",
+                column: "MaintainersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Problems_CategoryId",
+                schema: "data",
+                table: "Problems",
+                column: "CategoryId");
         }
 
         /// <inheritdoc />
@@ -244,11 +363,27 @@ namespace Data.Migrations
                 schema: "data");
 
             migrationBuilder.DropTable(
+                name: "CourseUser",
+                schema: "data");
+
+            migrationBuilder.DropTable(
+                name: "Problems",
+                schema: "data");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles",
                 schema: "data");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers",
+                schema: "data");
+
+            migrationBuilder.DropTable(
+                name: "Categories",
+                schema: "data");
+
+            migrationBuilder.DropTable(
+                name: "Courses",
                 schema: "data");
         }
     }

@@ -70,14 +70,16 @@ namespace Data
             {
                 Id = 2,
                 Name = "Etapa locala",
-                Parent = year
+                Parent = year,
+                Course = course
             };
 
             var schoolYear = new Category
             {
                 Id = 3,
                 Name = "9-10",
-                Parent = stage
+                Parent = stage,
+                Course = course
             };
 
             // seed categories
@@ -86,14 +88,14 @@ namespace Data
             context.Categories.Add(schoolYear);
 
             // add exercises
-            var exercise1 = new Exercise
+            var exercise1 = new Problem
             {
                 Id = 1,
                 Name = "Binary",
                 Category = schoolYear
             };
 
-            var exercise2 = new Exercise
+            var exercise2 = new Problem
             {
                 Id = 2,
                 Name = "Buffer overflow",
@@ -101,8 +103,8 @@ namespace Data
             };
 
             // seed exercises
-            context.Exercises.Add(exercise1);
-            context.Exercises.Add(exercise2);
+            context.Problems.Add(exercise1);
+            context.Problems.Add(exercise2);
 
             context.SaveChanges();
         }

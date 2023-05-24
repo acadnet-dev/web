@@ -63,30 +63,31 @@ public class CourseController : AcadnetController
             return NotFound();
         }
 
-        var categoryName = string.Empty;
-        if (categoryParent != null)
-        {
-            var _category = _courseService.GetCategory(categoryParent.Value);
-
-            if (_category == null)
-            {
-                return NotFound();
-            }
-
-            categoryName = _category.Name;
-        }
-
-
         var _categories = _courseService.GetCategories(_course, categoryParent);
-
-        return View(new CategoriesViewModel
+        var model = new CategoriesViewModel
         {
             CourseId = _course.Id,
             CourseName = _course.Name,
             Categories = Mapper.Map<List<CategoryViewModel>>(_categories),
             CategoryParent = categoryParent,
-            CategoryName = categoryName
-        });
+        };
+
+        // the category has a name only if it is not the root category
+        var categoryName = string.Empty;
+        if (categoryParent != null)
+        {
+            var _categoryParent = _courseService.GetCategory(categoryParent.Value);
+
+            if (_categoryParent == null)
+            {
+                return NotFound();
+            }
+
+            model.CategoryName = _categoryParent.Name;
+            model.Problems = Mapper.Map<List<ProblemInCategoryViewModel>>(_categoryParent.Problems);
+        }
+
+        return View(model);
     }
 
     [HttpGet]

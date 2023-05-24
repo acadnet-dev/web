@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20230510130629_CategoryAndExercise")]
-    partial class CategoryAndExercise
+    [Migration("20230524182310_ResetMigrations")]
+    partial class ResetMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,21 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("CourseUser", b =>
+                {
+                    b.Property<int>("MaintainedCoursesId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MaintainersId")
+                        .HasColumnType("text");
+
+                    b.HasKey("MaintainedCoursesId", "MaintainersId");
+
+                    b.HasIndex("MaintainersId");
+
+                    b.ToTable("CourseUser", "data");
+                });
 
             modelBuilder.Entity("Data.Identity.Role", b =>
                 {
@@ -132,6 +147,36 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Categories", "data");
+                });
+
+            modelBuilder.Entity("Data.Models.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -143,17 +188,12 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("Categories", "data");
+                    b.ToTable("Courses", "data");
                 });
 
-            modelBuilder.Entity("Data.Models.Exercise", b =>
+            modelBuilder.Entity("Data.Models.Problem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -175,7 +215,7 @@ namespace Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Exercises", "data");
+                    b.ToTable("Problems", "data");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -284,19 +324,40 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", "data");
                 });
 
+            modelBuilder.Entity("CourseUser", b =>
+                {
+                    b.HasOne("Data.Models.Course", null)
+                        .WithMany()
+                        .HasForeignKey("MaintainedCoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Identity.User", null)
+                        .WithMany()
+                        .HasForeignKey("MaintainersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Data.Models.Category", b =>
                 {
+                    b.HasOne("Data.Models.Course", "Course")
+                        .WithMany("Categories")
+                        .HasForeignKey("CourseId");
+
                     b.HasOne("Data.Models.Category", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
+                    b.Navigation("Course");
+
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Data.Models.Exercise", b =>
+            modelBuilder.Entity("Data.Models.Problem", b =>
                 {
                     b.HasOne("Data.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Problems")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -358,6 +419,13 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Models.Category", b =>
                 {
                     b.Navigation("Children");
+
+                    b.Navigation("Problems");
+                });
+
+            modelBuilder.Entity("Data.Models.Course", b =>
+                {
+                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

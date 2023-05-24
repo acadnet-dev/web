@@ -11,6 +11,6 @@ namespace Data.Models
         public Course? Course { get; set; }
         public Category? Parent { get; set; }
         public virtual ICollection<Category> Children { get; set; } = new List<Category>();
-        public virtual ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();
+        public virtual ICollection<Problem> Problems { get; set; } = new List<Problem>();
     }
 }

@@ -6,6 +6,7 @@ using Data;
 using Data.Identity;
 using Data.Models;
 using Framework.Security;
+using Microsoft.EntityFrameworkCore;
 
 namespace Framework.Services
 {
@@ -51,7 +52,7 @@ namespace Framework.Services
 
         public Category? GetCategory(int categoryId)
         {
-            return _database.Categories.Find(categoryId);
+            return _database.Categories.Include(x => x.Problems).FirstOrDefault(x => x.Id == categoryId);
         }
 
         public Course? GetCourse(int courseId)

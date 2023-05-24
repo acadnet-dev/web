@@ -190,7 +190,7 @@ namespace Data.Migrations
                     b.ToTable("Courses", "data");
                 });
 
-            modelBuilder.Entity("Data.Models.Exercise", b =>
+            modelBuilder.Entity("Data.Models.Problem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,7 +212,7 @@ namespace Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Exercises", "data");
+                    b.ToTable("Problems", "data");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -351,10 +351,10 @@ namespace Data.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Data.Models.Exercise", b =>
+            modelBuilder.Entity("Data.Models.Problem", b =>
                 {
                     b.HasOne("Data.Models.Category", "Category")
-                        .WithMany("Exercises")
+                        .WithMany("Problems")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -417,7 +417,7 @@ namespace Data.Migrations
                 {
                     b.Navigation("Children");
 
-                    b.Navigation("Exercises");
+                    b.Navigation("Problems");
                 });
 
             modelBuilder.Entity("Data.Models.Course", b =>

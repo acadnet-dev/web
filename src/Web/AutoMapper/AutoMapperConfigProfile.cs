@@ -13,6 +13,7 @@ namespace Web.AutoMapper
         public AutoMapperConfigProfile()
         {
             CoursesConfig();
+            ProblemsConfig();
         }
 
         public void CoursesConfig()
@@ -22,6 +23,11 @@ namespace Web.AutoMapper
 
             CreateMap<Category, CategoryViewModel>();
             CreateMap<CreateCategoryViewModel, Category>();
+        }
+
+        public void ProblemsConfig()
+        {
+            CreateMap<Problem, ProblemInCategoryViewModel>();
         }
     }
 }

@@ -14,9 +14,16 @@ namespace Web.Models.Courses
         public string CategoryName { get; set; } = default!;
 
         public ICollection<CategoryViewModel> Categories { get; set; } = default!;
+        public ICollection<ProblemInCategoryViewModel> Problems { get; set; } = new List<ProblemInCategoryViewModel>();
     }
 
     public class CategoryViewModel
+    {
+        public int Id { get; set; } = default!;
+        public string Name { get; set; } = default!;
+    }
+
+    public class ProblemInCategoryViewModel
     {
         public int Id { get; set; } = default!;
         public string Name { get; set; } = default!;
