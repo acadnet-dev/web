@@ -11,15 +11,12 @@ namespace Web.Controllers;
 
 public class CourseController : AcadnetController
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly ICourseService _courseService;
 
     public CourseController(
-        ILogger<HomeController> logger,
         ICourseService courseService
     )
     {
-        _logger = logger;
         _courseService = courseService;
     }
 

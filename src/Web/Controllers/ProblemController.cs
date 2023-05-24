@@ -5,9 +5,9 @@ using Framework;
 
 namespace Web.Controllers;
 
-public class HomeController : AcadnetController
+public class ProblemController : AcadnetController
 {
-    public HomeController()
+    public ProblemController()
     {
     }
 

@@ -14,15 +14,12 @@ namespace Web.Controllers
 {
     public class AuthController : AcadnetController
     {
-        private readonly ILogger<AuthController> _logger;
         private readonly SignInManager<User> _signInManager;
 
         public AuthController(
-            ILogger<AuthController> logger,
             SignInManager<User> signInManager
         )
         {
-            _logger = logger;
             _signInManager = signInManager;
         }
 
