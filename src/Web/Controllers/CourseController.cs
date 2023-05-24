@@ -9,12 +9,12 @@ using Data.Models;
 
 namespace Web.Controllers;
 
-public class CoursesController : AcadnetController
+public class CourseController : AcadnetController
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ICourseService _courseService;
 
-    public CoursesController(
+    public CourseController(
         ILogger<HomeController> logger,
         ICourseService courseService
     )

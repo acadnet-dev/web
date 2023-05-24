@@ -13,7 +13,7 @@
 
                     <div class="header__explore text-green-1 ml-60 xl:ml-30 xl:d-none">
                         @* TODO add link *@
-                        <a asp-action="Index" asp-controller="Courses" class="d-flex items-center">
+                        <a asp-action="Index" asp-controller="Course" class="d-flex items-center">
                             <i class="icon icon-explore mr-15"></i>
                             Explore problems
                         </a>
@@ -42,7 +42,7 @@
                             @if (SecurityContext.UserHasRole(UserRole.ProblemAuthor))
                             {
                                 <li>
-                                    <a data-barba asp-action="Index" asp-controller="Courses"
+                                    <a data-barba asp-action="Index" asp-controller="Course"
                                         asp-route-filterMaintainer="@SecurityContext.User!.UserName">My problems</a>
                                 </li>
                             }
