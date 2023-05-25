@@ -31,7 +31,7 @@ namespace Framework.Services
             _database.SaveChanges();
 
             // create bucket
-            _fileService.CreateBucket(problem.FilesBucketName);
+            _fileService.CreateBucketAsync(problem.FilesBucketName).Wait();
         }
 
         public Problem? GetProblem(int id)

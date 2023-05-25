@@ -1,0 +1,83 @@
+@model CheckStructureViewModel
+
+@{
+  var complete = Model.ReadmePresent && Model.BadSourcePresent && Model.GoodSourcePresent && Model.InputTestsCount > 0 &&
+  Model.RefTestsCount > 0 && Model.InputTestsCount == Model.RefTestsCount;
+}
+
+<div class="row justify-content-between">
+  <div class="col-md-4">
+    <h4 class="">Problem structure checks</h4>
+    <div class="d-flex flex-column">
+      @if (Model.ReadmePresent)
+      {
+        <span class="text-green-5"><i class="fas fa-circle-check mr-5"></i>README.md</span>
+      }
+      else
+      {
+        <span class="text-red-3"><i class="fas fa-circle-exclamation mr-5"></i>README.md - @Model.ReadmeError</span>
+      }
+
+      @if (Model.BadSourcePresent)
+      {
+        <span class="text-green-5"><i class="fas fa-circle-check mr-5"></i>main.cpp</span>
+      }
+      else
+      {
+        <span class="text-red-3"><i class="fas fa-circle-exclamation mr-5"></i>main.cpp - @Model.BadSourceError</span>
+      }
+
+      @if (Model.GoodSourcePresent)
+      {
+        <span class="text-green-5"><i class="fas fa-circle-check mr-5"></i>solution_main.cpp</span>
+      }
+      else
+      {
+        <span class="text-red-3"><i class="fas fa-circle-exclamation mr-5"></i>solution_main.cpp -
+          @Model.GoodSourceError</span>
+      }
+
+      @if (Model.InputTestsCount > 0)
+      {
+        <span class="text-green-5"><i class="fas fa-circle-check mr-5"></i>@Model.InputTestsCount input tests</span>
+      }
+      else
+      {
+        <span class="text-red-3"><i class="fas fa-circle-exclamation mr-5"></i>input tests - @Model.InputTestsError</span>
+      }
+
+      @if (Model.RefTestsCount > 0)
+      {
+        <span class="text-green-5"><i class="fas fa-circle-check mr-5"></i>@Model.RefTestsCount reference tests</span>
+      }
+      else
+      {
+        <span class="text-red-3"><i class="fas fa-circle-exclamation mr-5"></i>reference tests -
+          @Model.RefTestsError</span>
+      }
+
+      @if (Model.InputTestsCount > 0 && Model.RefTestsCount > 0 && Model.InputTestsCount != Model.RefTestsCount)
+      {
+        <span class="text-red-3"><i class="fas fa-circle-exclamation mr-5"></i>input / ref count mismatch
+          (@Model.InputTestsCount vs @Model.RefTestsCount)</span>
+      }
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h4>Problem roadmap</h4>
+    <div class="d-flex flex-column y-gap-5 pt-10">
+      <p class="text-20 text-green-5">Incomplete</p>
+      <span class='@(complete ? "text-green-5" : "")'><i class='fas fa-down-long text-20 mr-5'></i>TODO: add necessary
+        files</span>
+      <p class='text-20 @(complete ? "text-green-5" : "")'>All files uploaded</p>
+      <span><i class='fas fa-down-long text-20 mr-5'></i>TODO: check if good solution passes tests</span>
+      <p class='text-20'>Ready to solve</p>
+      @if (complete)
+      {
+        <a class="button -md -yellow-1 text-white -icon mt-20" type="submit">Check good solution passes tests (Submit)
+          <i class="fas fa-check ml-10"></i>
+        </a>
+      }
+    </div>
+  </div>
+</div>

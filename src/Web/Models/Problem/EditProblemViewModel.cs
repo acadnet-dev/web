@@ -9,12 +9,29 @@ namespace Web.Models.Problem
 {
     public class EditProblemViewModel
     {
-        [Required]
-        [HiddenInput]
         public int Id { get; set; } = default!;
 
-        [Required]
-        [Display(Name = "Problem Name")]
         public string Name { get; set; } = default!;
+
+        public string FilesBucketName { get; set; } = default!;
+        public ICollection<string> Files { get; set; } = default!;
+    }
+
+    public class CheckStructureViewModel
+    {
+        public bool ReadmePresent { get; set; } = default!;
+        public string? ReadmeError { get; set; }
+
+        public bool BadSourcePresent { get; set; } = default!;
+        public string? BadSourceError { get; set; }
+
+        public bool GoodSourcePresent { get; set; } = default!;
+        public string? GoodSourceError { get; set; }
+
+        public int InputTestsCount { get; set; } = default!;
+        public string? InputTestsError { get; set; }
+
+        public int RefTestsCount { get; set; } = default!;
+        public string? RefTestsError { get; set; }
     }
 }

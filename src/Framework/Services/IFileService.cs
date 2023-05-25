@@ -12,6 +12,10 @@ namespace Framework.Services
 
         Task<S3Object?> DownloadFileAsync(string bucketName, string fileName);
 
-        void CreateBucket(string bucketName);
+        Task DeleteFileAsync(string bucketName, string fileName);
+
+        Task CreateBucketAsync(string bucketName);
+
+        Task<ICollection<S3ObjectStat>> GetFilesInBucketAsync(string bucketName);
     }
 }

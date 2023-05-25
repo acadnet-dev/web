@@ -21,6 +21,10 @@
 <section class="layout-pt-md layout-pb-md">
   <div data-anim="slide-up delay-2" class="container">
     <div class="row y-gap-20 items-center justify-between pb-30">
+      <div id="check_container">
+      </div>
+    </div>
+    <div class="row y-gap-20 items-center justify-between pb-30">
       <div class="col-md-4">
         <input type="file" id="problem_files_pond" class="filepond" name="filepond" multiple data-allow-reorder="true"
           data-max-file-size="5MB" data-max-files="30">
@@ -39,13 +43,69 @@
   <!-- FilePond -->
   <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
   <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-  <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
   <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 
   <script>
     $.fn.filepond.registerPlugin(FilePondPluginFileValidateSize);
-    $.fn.filepond.registerPlugin(FilePondPluginImagePreview);
 
-    $('#problem_files_pond').filepond();
+    const inputElement = document.querySelector('input[id="problem_files_pond"]');
+
+    const checkProblemStructure = () => {
+      $.ajax({
+        url: '/problem/check?problemId=@Model.Id',
+        type: 'GET',
+        success: (response) => {
+          $('#check_container').html(response);
+        },
+        error: (xhr, status, error) => {
+          notie.alert({type: 'error', text: error, position: 'bottom'});
+        }
+      });
+    };
+
+    FilePond.create(inputElement, {
+      server: {
+        process: {
+          url: '/problem/upload?bucketName=@Model.FilesBucketName',
+          onerror: (response) => {
+            notie.alert({type: 'error', text: response, position: 'bottom'});
+            return response;
+          }
+        },
+        revert: '/problem/remove',
+        load: '/problem/load/',
+        remove: (source, load, error) => {
+          $.ajax({
+            url: '/problem/remove',
+            type: 'DELETE',
+            data: source,
+            contentType: 'text/plain',
+            success: () => {
+              load();
+            },
+            error: (xhr, status, error) => {
+              error(error);
+            }
+          });
+        }
+      },
+      files: [@foreach (var file in Model.Files)
+    {
+      <text>{source: '@file', options: {type: 'local' }},</text>
+    }]
+    });
+
+    // event listeners to update the check container
+    document.addEventListener('FilePond:loaded', (e) => {
+      checkProblemStructure();
+    });
+
+    document.addEventListener('FilePond:processfile', (e) => {
+      checkProblemStructure();
+    });
+
+    document.addEventListener('FilePond:updatefiles', (e) => {
+      checkProblemStructure();
+    });
   </script>
 }
