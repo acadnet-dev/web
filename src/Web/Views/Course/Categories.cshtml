@@ -3,6 +3,8 @@
 @using Framework.Services
 @inject ICourseService CourseService
 
+@using Data.Models.Enums
+
 @{
   ViewData["Title"] = "Explore problems";
 }
@@ -82,7 +84,7 @@
         </div>
       }
 
-      @foreach (var problem in Model.Problems)
+      @foreach (var problem in Model.Problems.Where(x => x.Status == ProblemStatus.Ready).ToList())
       {
         <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
           <a asp-action="Statement" asp-controller="Problem" asp-route-problemId="@problem.Id"
@@ -100,8 +102,46 @@
         </div>
       }
 
+      @* maintainer *@
       @if (SecurityContext.IsAuthenticated && CourseService.IsMaintainer(Model.CourseId, SecurityContext.User!))
       {
+        // show hidden problems
+        @foreach (var problem in Model.Problems.Where(x => x.Status == ProblemStatus.Incomplete).ToList())
+        {
+          <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
+            <div class="coursesCard -type-1 rounded-8 bg-yellow-2 shadow-4">
+              <div class="h-100 pt-20 pb-15 px-30 row justify-content-between">
+                <div class="col-auto text-20 lh-15 fw-500 text-dark-1 mt-10">@problem.Name</div>
+                <div class="col-auto mt-10">
+                  <a asp-action="Edit" asp-controller="Problem" asp-route-problemId="@problem.Id"
+                    class="button -sm -green-5 text-white -icon w-1/3">Edit</a>
+                </div>
+              </div>
+              <div class="row px-30 pb-15 justify-content-start">
+                <span class="text-red-3"><i class="fas fa-file-circle-exclamation text-20 mr-10"></i>Incomplete</span>
+              </div>
+            </div>
+          </div>
+        }
+
+        @foreach (var problem in Model.Problems.Where(x => x.Status == ProblemStatus.Hidden).ToList())
+        {
+          <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
+            <div class="coursesCard -type-1 rounded-8 bg-yellow-2 shadow-4">
+              <div class="h-100 pt-20 pb-15 px-30 row justify-content-between">
+                <div class="col-auto text-20 lh-15 fw-500 text-dark-1 mt-10">@problem.Name</div>
+                <div class="col-auto mt-10">
+                  <a asp-action="Edit" asp-controller="Problem" asp-route-problemId="@problem.Id"
+                    class="button -sm -green-5 text-white -icon w-1/3">Edit</a>
+                </div>
+              </div>
+              <div class="row px-30 pb-15 justify-content-start">
+                <span><i class="fas fa-eye-slash text-20 mr-10"></i>Hidden</span>
+              </div>
+            </div>
+          </div>
+        }
+
         <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
           <div class="coursesCard -type-1 rounded-8 bg-white-1 shadow-4">
             <div class="row">

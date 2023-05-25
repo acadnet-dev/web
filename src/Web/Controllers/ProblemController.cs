@@ -5,6 +5,7 @@ using Framework;
 using Web.Models.Problem;
 using Framework.Services;
 using Data.Models;
+using Data.Models.Enums;
 
 namespace Web.Controllers;
 
@@ -52,7 +53,9 @@ public class ProblemController : AcadnetController
 
         var _problem = new Problem
         {
-            Name = model.Name
+            Name = model.Name,
+            // problems are incomplete after creation, because they don't have any files
+            Status = ProblemStatus.Incomplete
         };
 
         _problemService.CreateProblem(_problem, _category);

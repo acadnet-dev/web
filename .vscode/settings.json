@@ -12,6 +12,7 @@
             "password": "postgres"
         }
     ],
+    "editor.formatOnType": true,
     "omnisharp.enableImportCompletion": true,
     "editor.formatOnSave": true,
     "files.exclude": {
