@@ -60,6 +60,14 @@ namespace Framework.Services
             return _database.Courses.Find(courseId);
         }
 
+        public Course? GetCourseByCategory(int categoryId)
+        {
+            return _database.Categories.AsQueryable()
+                .Where(c => c.Id == categoryId)
+                .Select(c => c.Course)
+                .FirstOrDefault();
+        }
+
         public ICollection<Course> GetCourses(string? filterMaintainer = default!)
         {
             var _query = _database.Courses.AsQueryable();

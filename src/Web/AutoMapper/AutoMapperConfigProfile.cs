@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Data.Models;
 using Web.Models.Courses;
+using Web.Models.Problem;
 
 namespace Web.AutoMapper
 {
@@ -28,6 +29,7 @@ namespace Web.AutoMapper
         public void ProblemsConfig()
         {
             CreateMap<Problem, ProblemInCategoryViewModel>();
+            CreateMap<CreateProblemViewModel, Problem>();
         }
     }
 }

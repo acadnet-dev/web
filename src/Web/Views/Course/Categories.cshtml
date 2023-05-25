@@ -116,10 +116,17 @@
                   asp-route-categoryParent="@Model.CategoryParent" class="button -sm -purple-1 text-white -icon">Add
                   category</a>
               </div>
-              <div class="col-auto">
-                <a class="button -sm -yellow-1 text-white -icon">Add problem</a>
-              </div>
-
+              @if (Model.CategoryParent != null)
+              {
+                <div class="col-auto">
+                  <a asp-action="Create" asp-controller="Problem" asp-route-categoryId="@Model.CategoryParent"
+                    class="button -sm -yellow-1 text-white -icon">Add problem</a>
+                </div>
+              }
+              else
+              {
+                <p>You need to have at least one subcategory to create a problem</p>
+              }
             </div>
           </div>
         </div>

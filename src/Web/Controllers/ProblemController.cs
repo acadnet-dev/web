@@ -2,23 +2,64 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 using Framework;
+using Web.Models.Problem;
+using Framework.Services;
+using Data.Models;
 
 namespace Web.Controllers;
 
 public class ProblemController : AcadnetController
 {
-    public ProblemController()
+    private readonly IProblemService _problemService;
+    private readonly ICourseService _categoryService;
+
+    public ProblemController(
+        IProblemService problemService,
+        ICourseService categoryService
+    )
     {
+        _problemService = problemService;
+        _categoryService = categoryService;
     }
 
-    public IActionResult Index()
+    [HttpGet]
+    public IActionResult Create([FromQuery] int? categoryId)
     {
-        return View();
+        if (categoryId == null)
+        {
+            AddError("Category not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        return View(new CreateProblemViewModel { CategoryId = categoryId });
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    [HttpPost]
+    public IActionResult Create(CreateProblemViewModel model)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var _category = _categoryService.GetCategory(model.CategoryId!.Value);
+
+        if (_category == null)
+        {
+            AddError("Category not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var _problem = new Problem
+        {
+            Name = model.Name
+        };
+
+        _problemService.CreateProblem(_problem, _category);
+
+        // get course to know where to return
+        var _course = _categoryService.GetCourseByCategory(_category.Id);
+
+        return RedirectToAction("Categories", "Course", new { courseId = _course!.Id, categoryParent = _category.Id });
     }
 }

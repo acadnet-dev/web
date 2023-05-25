@@ -11,6 +11,7 @@ namespace Framework.Services
     {
         public ICollection<Course> GetCourses(string? filterMaintainer = default!);
         public Course? GetCourse(int courseId);
+        public Course? GetCourseByCategory(int categoryId);
         public void CreateCourse(Course course);
         public ICollection<Category> GetCategories(Course course, int? categoryParentId = default!);
         public Category? GetCategory(int categoryId);

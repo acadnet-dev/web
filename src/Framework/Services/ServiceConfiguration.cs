@@ -21,6 +21,9 @@ namespace Framework.Services
 
             // Course services
             services.AddScoped<ICourseService, CourseService>();
+
+            // Problem services
+            services.AddScoped<IProblemService, ProblemService>();
         }
 
         public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
