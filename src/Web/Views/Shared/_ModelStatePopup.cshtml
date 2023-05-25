@@ -22,13 +22,13 @@
 @if (errors.Count > 0)
 {
     <script>
-    notie.alert({type: 'error', text: '@errorsStr'});
+    notie.alert({type: 'error', text: '@errorsStr', position: 'bottom'});
 </script>
 }
 
 @if (success.Count > 0)
 {
     <script>
-    notie.alert({type: 'success', text: '@successStr'});
+    notie.alert({type: 'success', text: '@successStr', position: 'bottom'});
 </script>
 }
