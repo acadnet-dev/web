@@ -15,6 +15,30 @@ namespace Framework.Services
             _minioService = minioService;
         }
 
+        public void CreateBucket(string bucketName)
+        {
+            try
+            {
+                var client = _minioService.GetClient();
+
+                // Make a bucket on the server, if not already present
+                var beArgs = new Minio.BucketExistsArgs()
+                    .WithBucket(bucketName);
+
+                bool found = client.BucketExistsAsync(beArgs).Result;
+                if (!found)
+                {
+                    var mbArgs = new Minio.MakeBucketArgs()
+                        .WithBucket(bucketName);
+                    client.MakeBucketAsync(mbArgs).Wait();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<S3Object?> DownloadFileAsync(string bucketName, string fileName)
         {
             try

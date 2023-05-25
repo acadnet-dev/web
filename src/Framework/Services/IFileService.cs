@@ -11,5 +11,7 @@ namespace Framework.Services
         Task UploadFileAsync(S3Object s3object);
 
         Task<S3Object?> DownloadFileAsync(string bucketName, string fileName);
+
+        void CreateBucket(string bucketName);
     }
 }

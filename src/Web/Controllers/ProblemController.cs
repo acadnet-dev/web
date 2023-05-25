@@ -65,4 +65,26 @@ public class ProblemController : AcadnetController
 
         return RedirectToAction("Categories", "Course", new { courseId = _course!.Id, categoryParent = _category.Id });
     }
+
+    [HttpGet]
+    public IActionResult Edit([FromQuery] int? problemId = default!)
+    {
+        if (problemId == null)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var _problem = _problemService.GetProblem(problemId.Value);
+
+        if (_problem == null)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var _output = Mapper.Map<EditProblemViewModel>(_problem);
+
+        return View(_output);
+    }
 }

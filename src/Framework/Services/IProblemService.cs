@@ -9,5 +9,6 @@ namespace Framework.Services
     public interface IProblemService
     {
         public void CreateProblem(Problem problem, Category category);
+        public Problem? GetProblem(int id);
     }
 }

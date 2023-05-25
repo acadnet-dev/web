@@ -4,8 +4,8 @@ Dev:
   ✔ docker - add min.io server @done(23-05-22 18:14)
   ✔ add minio service @done(23-05-22 18:14)
   ✔ create course and categories and navigate through them @done(23-05-22 21:54)
-  ☐ define problem structure
-  ☐ add problem entity to db
+  ✔ define problem structure @done(23-05-25 17:46)
+  ✔ add problem entity to db @done(23-05-25 17:46)
   ☐ upload problem page
   ☐ problem view page
   ☐ add breadcrumbs to courses and categories

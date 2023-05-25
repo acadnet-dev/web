@@ -30,6 +30,8 @@ namespace Web.AutoMapper
         {
             CreateMap<Problem, ProblemInCategoryViewModel>();
             CreateMap<CreateProblemViewModel, Problem>();
+
+            CreateMap<Problem, EditProblemViewModel>();
         }
     }
 }

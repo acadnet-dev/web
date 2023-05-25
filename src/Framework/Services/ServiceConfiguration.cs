@@ -24,6 +24,12 @@ namespace Framework.Services
 
             // Problem services
             services.AddScoped<IProblemService, ProblemService>();
+
+            // File services
+            services.AddScoped<IFileService, FileService>();
+
+            // Minio services
+            services.AddScoped<IMinioService, MinioService>();
         }
 
         public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)

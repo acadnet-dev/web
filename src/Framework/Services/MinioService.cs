@@ -20,10 +20,16 @@ namespace Framework.Services
 
         public MinioClient GetClient()
         {
-            return new MinioClient()
+            var query = new MinioClient()
                 .WithEndpoint(_minioSettings.Value.Endpoint)
-                .WithCredentials(_minioSettings.Value.AccessKey, _minioSettings.Value.SecretKey)
-                .WithSSL()
+                .WithCredentials(_minioSettings.Value.AccessKey, _minioSettings.Value.SecretKey);
+
+            if (_minioSettings.Value.WithSSL)
+            {
+                query = query.WithSSL();
+            }
+
+            return query
                 .Build();
         }
     }

@@ -16,7 +16,9 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="~/css/vendors.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/main.css" asp-append-version="true">
-    <title>@ViewData["Title"] - Acadnet</title>
+    <title>@ViewData["Title"] | Acadnet.dev</title>
+
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body class="preloader-visible" data-barba="wrapper">
@@ -39,6 +41,8 @@
     </main>
 
     <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/f239fff167.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/notie"></script>
     <script src="~/js/vendors.js"></script>

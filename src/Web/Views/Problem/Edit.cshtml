@@ -1,0 +1,51 @@
+@model EditProblemViewModel
+
+@{
+  ViewData["Title"] = "Edit problem - " + Model.Name;
+}
+
+<section class="page-header -type-1 mt-90">
+  <div class="container">
+    <div class="page-header__content">
+      <div class="row">
+        <div class="col-auto">
+          <div data-anim="slide-up delay-1">
+            <h1 class="page-header__title">Edit problem - @Model.Name</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="layout-pt-md layout-pb-md">
+  <div data-anim="slide-up delay-2" class="container">
+    <div class="row y-gap-20 items-center justify-between pb-30">
+      <div class="col-md-4">
+        <input type="file" id="problem_files_pond" class="filepond" name="filepond" multiple data-allow-reorder="true"
+          data-max-file-size="5MB" data-max-files="30">
+      </div>
+    </div>
+  </div>
+</section>
+
+@section Styles {
+  <!-- Filepond stylesheet -->
+  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+  <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+}
+
+@section Scripts {
+  <!-- FilePond -->
+  <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+  <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+  <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+
+  <script>
+    $.fn.filepond.registerPlugin(FilePondPluginFileValidateSize);
+    $.fn.filepond.registerPlugin(FilePondPluginImagePreview);
+
+    $('#problem_files_pond').filepond();
+  </script>
+}

@@ -11,9 +11,12 @@ namespace Data.Models
     public class Problem : Entity
     {
         public string Name { get; set; } = default!;
+
         public virtual Category Category { get; set; } = default!;
 
         [Column(TypeName = "varchar(255)")]
         public ProblemStatus Status { get; set; } = ProblemStatus.Incomplete;
+
+        public string FilesBucketName { get; set; } = default!;
     }
 }
