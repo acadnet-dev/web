@@ -6,7 +6,10 @@ Dev:
   ✔ create course and categories and navigate through them @done(23-05-22 21:54)
   ✔ define problem structure @done(23-05-25 17:46)
   ✔ add problem entity to db @done(23-05-25 17:46)
-  ☐ upload problem page
+  ✔ edit problem page @done(23-05-25 17:47)
+  ☐ upload files
+  ☐ restore uploaded files
+  ☐ check uploaded files and display result to user
   ☐ problem view page
   ☐ add breadcrumbs to courses and categories
   
