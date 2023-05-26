@@ -11,6 +11,7 @@ services:
       POSTGRES_DB: acadnet
     volumes:
       - ./data/postgres-data:/var/lib/postgresql/data
+    restart: always
   minio:
     image: minio/minio:latest
     ports:
@@ -22,3 +23,4 @@ services:
     volumes:
       - ./data/minio-data:/data
     command: server /data --console-address ":9001"
+    restart: always
