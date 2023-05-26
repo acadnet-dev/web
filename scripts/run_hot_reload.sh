@@ -1,2 +1,2 @@
 #!/bin/bash
-dotnet watch --project Web/
+dotnet watch --project src/Web/
