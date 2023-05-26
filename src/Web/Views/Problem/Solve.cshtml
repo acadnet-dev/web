@@ -1,0 +1,35 @@
+@model SolveProblemViewModel
+
+@{
+  ViewData["Title"] = "Solve - " + Model.Name;
+}
+
+<section class="page-header -type-1 mt-90">
+  <div class="container">
+    <div class="page-header__content">
+      <div class="row">
+        <div class="col-auto">
+          <div data-anim="slide-up delay-1">
+            <h1 class="page-header__title">Solve - @Model.Name</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="">
+  <div data-anim="slide-up delay-2" class="container">
+    <div class="row y-gap-20 items-start justify-between pb-30">
+      <div class="col-auto markdown-container">
+        @Html.Raw(Model.StatementHtml)
+      </div>
+      <div class="col-auto text-center">
+        <a asp-action="DownloadSource" asp-route-problemId="@Model.Id" target="_blank"
+          class="button -md -outline-purple-1 text-purple-1 -icon" type="submit">Download sources
+          <i class="fas fa-cloud-arrow-down ml-10"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

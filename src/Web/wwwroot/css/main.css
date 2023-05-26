@@ -16714,3 +16714,15 @@ table.table td {
 .notie-container {
   z-index: 100;
 }
+
+/* rounded corners, slim line border and a little gray background */
+.markdown-container {
+  border-radius: 1rem;
+  border: 1px solid #e1e4e8;
+  background-color: #fafbfc;
+  padding: 1rem;
+}
+
+.markdown-container h3 {
+  margin-top: 1rem;
+}

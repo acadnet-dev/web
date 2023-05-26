@@ -74,6 +74,33 @@ public class ProblemController : AcadnetController
     }
 
     [HttpGet]
+    public IActionResult Solve([FromQuery] int? problemId = default!)
+    {
+        if (problemId == null)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var _problem = _problemService.GetProblem(problemId.Value);
+
+        if (_problem == null || _problem.Status != ProblemStatus.Ready)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var _output = new SolveProblemViewModel
+        {
+            Id = _problem.Id,
+            Name = _problem.Name,
+            StatementHtml = _problemService.GetProblemStatementHtml(_problem)
+        };
+
+        return View(_output);
+    }
+
+    [HttpGet]
     public IActionResult Edit([FromQuery] int? problemId = default!)
     {
         if (problemId == null)
@@ -203,5 +230,32 @@ public class ProblemController : AcadnetController
         _output.RefTestsError = _output.RefTestsCount == 0 ? "no output tests found" : null;
 
         return PartialView("_CheckStructurePartial", _output);
+    }
+
+    [HttpGet]
+    public IActionResult DownloadSource([FromQuery] int? problemId)
+    {
+        if (problemId == null)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var _problem = _problemService.GetProblem(problemId.Value);
+
+        if (_problem == null || _problem.Status != ProblemStatus.Ready)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        // get source
+        var _source = _problemService.GetProblemSource(_problem);
+
+        var _memorySource = new MemoryStream();
+        _source.Content.CopyTo(_memorySource);
+
+
+        return File(_memorySource.ToArray(), "text/plain", $"{_problem.Name}.cpp");
     }
 }

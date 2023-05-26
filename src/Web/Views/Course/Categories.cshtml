@@ -87,7 +87,7 @@
       @foreach (var problem in Model.Problems.Where(x => x.Status == ProblemStatus.Ready).ToList())
       {
         <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
-          <a asp-action="Statement" asp-controller="Problem" asp-route-problemId="@problem.Id"
+          <a asp-action="Solve" asp-controller="Problem" asp-route-problemId="@problem.Id"
             class="coursesCard -type-1 rounded-8 bg-yellow-5 shadow-4">
             <div class="h-100 pt-20 pb-15 px-30 row justify-content-between">
               <div class="col-auto text-20 lh-15 fw-500 text-dark-1 mt-10">@problem.Name</div>
