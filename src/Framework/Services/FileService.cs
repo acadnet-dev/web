@@ -127,7 +127,7 @@ namespace Framework.Services
             }
         }
 
-        public async Task<ICollection<S3ObjectStat>> GetFilesInBucketAsync(string bucketName)
+        public ICollection<S3ObjectStat> GetFilesInBucket(string bucketName)
         {
             try
             {

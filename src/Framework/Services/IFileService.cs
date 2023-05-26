@@ -16,6 +16,6 @@ namespace Framework.Services
 
         Task CreateBucketAsync(string bucketName);
 
-        Task<ICollection<S3ObjectStat>> GetFilesInBucketAsync(string bucketName);
+        ICollection<S3ObjectStat> GetFilesInBucket(string bucketName);
     }
 }

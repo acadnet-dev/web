@@ -74,7 +74,7 @@ public class ProblemController : AcadnetController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit([FromQuery] int? problemId = default!)
+    public IActionResult Edit([FromQuery] int? problemId = default!)
     {
         if (problemId == null)
         {
@@ -93,7 +93,7 @@ public class ProblemController : AcadnetController
         var _output = Mapper.Map<EditProblemViewModel>(_problem);
 
         // get files in bucket
-        var _files = await _fileService.GetFilesInBucketAsync(_problem.FilesBucketName);
+        var _files = _fileService.GetFilesInBucket(_problem.FilesBucketName);
         _output.Files = _files.Select(x => x.BucketName + "/" + x.FileName).ToList();
 
         return View(_output);
@@ -163,7 +163,7 @@ public class ProblemController : AcadnetController
     }
 
     [HttpGet]
-    public async Task<IActionResult> Check([FromQuery] int? problemId)
+    public IActionResult Check([FromQuery] int? problemId)
     {
         if (problemId == null)
         {
@@ -180,7 +180,7 @@ public class ProblemController : AcadnetController
         }
 
         // get files in bucket
-        var _files = await _fileService.GetFilesInBucketAsync(_problem.FilesBucketName);
+        var _files = _fileService.GetFilesInBucket(_problem.FilesBucketName);
 
         var _output = new CheckStructureViewModel();
 
