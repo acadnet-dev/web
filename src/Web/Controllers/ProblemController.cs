@@ -10,22 +10,23 @@ using Data.S3;
 using CommunityToolkit.HighPerformance.Helpers;
 using System.Text;
 using System.Web;
+using Framework.Services.ProblemServices;
 
 namespace Web.Controllers;
 
 public class ProblemController : AcadnetController
 {
-    private readonly IProblemService _problemService;
+    private readonly ProblemServiceFactory _problemServiceFactory;
     private readonly ICourseService _categoryService;
     private readonly IFileService _fileService;
 
     public ProblemController(
-        IProblemService problemService,
+        ProblemServiceFactory problemServiceFactory,
         ICourseService categoryService,
         IFileService fileService
     )
     {
-        _problemService = problemService;
+        _problemServiceFactory = problemServiceFactory;
         _categoryService = categoryService;
         _fileService = fileService;
     }
@@ -62,10 +63,13 @@ public class ProblemController : AcadnetController
         {
             Name = model.Name,
             // problems are incomplete after creation, because they don't have any files
-            Status = ProblemStatus.Incomplete
+            Status = ProblemStatus.Incomplete,
+            Category = _category,
+            Type = model.ProblemType
         };
 
-        _problemService.CreateProblem(_problem, _category);
+        var _problemService = _problemServiceFactory.GetServiceByType(_problem.Type);
+        _problemService.CreateProblem(_problem);
 
         // get course to know where to return
         var _course = _categoryService.GetCourseByCategory(_category.Id);
@@ -82,6 +86,7 @@ public class ProblemController : AcadnetController
             return RedirectToAction("Index", "Course");
         }
 
+        var _problemService = _problemServiceFactory.GetServiceById(problemId.Value);
         var _problem = _problemService.GetProblem(problemId.Value);
 
         if (_problem == null || _problem.Status != ProblemStatus.Ready)
@@ -109,6 +114,7 @@ public class ProblemController : AcadnetController
             return RedirectToAction("Index", "Course");
         }
 
+        var _problemService = _problemServiceFactory.GetServiceById(problemId.Value);
         var _problem = _problemService.GetProblem(problemId.Value);
 
         if (_problem == null)
@@ -198,6 +204,7 @@ public class ProblemController : AcadnetController
             return RedirectToAction("Index", "Course");
         }
 
+        var _problemService = _problemServiceFactory.GetServiceById(problemId.Value);
         var _problem = _problemService.GetProblem(problemId.Value);
 
         if (_problem == null)
@@ -241,6 +248,7 @@ public class ProblemController : AcadnetController
             return RedirectToAction("Index", "Course");
         }
 
+        var _problemService = _problemServiceFactory.GetServiceById(problemId.Value);
         var _problem = _problemService.GetProblem(problemId.Value);
 
         if (_problem == null || _problem.Status != ProblemStatus.Ready)

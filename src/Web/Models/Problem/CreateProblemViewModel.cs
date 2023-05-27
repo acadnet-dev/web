@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Data.Models.Enums;
 
 namespace Web.Models.Problem
 {
@@ -16,5 +17,9 @@ namespace Web.Models.Problem
         [Required]
         [HiddenInput]
         public int? CategoryId { get; set; } = default!;
+
+        [Required]
+        [Display(Name = "Problem Type")]
+        public ProblemType ProblemType { get; set; } = default!;
     }
 }

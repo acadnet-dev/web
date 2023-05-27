@@ -18,5 +18,8 @@ namespace Data.Models
         public ProblemStatus Status { get; set; } = ProblemStatus.Incomplete;
 
         public string FilesBucketName { get; set; } = default!;
+
+        [Column(TypeName = "varchar(255)")]
+        public ProblemType Type { get; set; } = default!;
     }
 }

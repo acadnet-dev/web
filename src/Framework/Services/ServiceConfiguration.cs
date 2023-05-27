@@ -6,6 +6,7 @@ using Data;
 using Data.Identity;
 using Data.Settings;
 using Framework.Security;
+using Framework.Services.ProblemServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,9 @@ namespace Framework.Services
             services.AddScoped<ICourseService, CourseService>();
 
             // Problem services
-            services.AddScoped<IProblemService, ProblemService>();
+            services.AddScoped<ProblemServiceFactory>();
+            services.AddScoped<SimpleAcadnetISProblemService>()
+                    .AddScoped<IProblemService, SimpleAcadnetISProblemService>(provider => provider.GetService<SimpleAcadnetISProblemService>()!);
 
             // File services
             services.AddScoped<IFileService, FileService>();

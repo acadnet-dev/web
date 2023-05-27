@@ -7,14 +7,14 @@ using Data.Models;
 using Data.S3;
 using Markdig;
 
-namespace Framework.Services
+namespace Framework.Services.ProblemServices
 {
-    public class ProblemService : IProblemService
+    public class SimpleAcadnetISProblemService : IProblemService
     {
         private readonly Database _database;
         private readonly IFileService _fileService;
 
-        public ProblemService(
+        public SimpleAcadnetISProblemService(
             Database database,
             IFileService fileService
         )
@@ -23,9 +23,8 @@ namespace Framework.Services
             _fileService = fileService;
         }
 
-        public void CreateProblem(Problem problem, Category category)
+        public void CreateProblem(Problem problem)
         {
-            problem.Category = category;
             problem.FilesBucketName = Guid.NewGuid().ToString();
 
             _database.Problems.Add(problem);
