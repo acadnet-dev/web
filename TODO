@@ -11,6 +11,7 @@ Dev:
   ✔ restore uploaded files @done(23-05-26 02:10)
   ✔ check uploaded files and display result to user @done(23-05-26 02:10)
   ✔ problem view page @done(23-05-26 12:38)
+  ☐ split problem into types
   ☐ problem check good solution passes test in edit page
   
 Not so important:
