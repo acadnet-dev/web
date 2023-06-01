@@ -7,6 +7,7 @@ using Data.Identity;
 using Data.Settings;
 using Framework.Security;
 using Framework.Services.ProblemServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +63,10 @@ namespace Framework.Services
 
                 })
                 // .AddGithub
-                .AddCookie();
+                .AddCookie(options =>
+                {
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                });
         }
 
         public static void AddSettings(this IServiceCollection services, IConfiguration configuration)
