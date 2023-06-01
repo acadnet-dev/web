@@ -4,9 +4,14 @@ EXPOSE 3001
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Web/Web.csproj", "Web/"]
+# Web
+COPY ["src/Web/Web.csproj", "Web/"]
+# Data
+COPY ["src/Data/Data.csproj", "Data/"]
+# Framework
+COPY ["src/Framework/Framework.csproj", "Framework/"]
 RUN dotnet restore "Web/Web.csproj"
-COPY . .
+COPY src .
 WORKDIR "/src/Web"
 RUN dotnet build "Web.csproj" -c Release -o /app/build
 

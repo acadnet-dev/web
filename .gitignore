@@ -8,8 +8,5 @@ riderModule.iml
 # Ignore data files created by running the Docker Compose setup locally
 /docker/data/
 
-# Ignore appsettings.json file
-appsettings.json
-
 # IDE
 .idea/

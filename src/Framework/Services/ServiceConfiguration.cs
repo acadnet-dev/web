@@ -68,7 +68,7 @@ namespace Framework.Services
         public static void AddSettings(this IServiceCollection services, IConfiguration configuration)
         {
             // Settings
-            services.Configure<MinioSettings>(configuration.GetSection("Minio"));
+            services.Configure<MinioSettings>(configuration.GetSection("S3"));
         }
 
         public static void AddApplicationCookie(this IServiceCollection services)

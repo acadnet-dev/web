@@ -12,6 +12,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: "src/Web/appsettings.json"
+        env:
+          ConnectionStrings.DefaultConnection: ${{ secrets.POSTGRES_CONNECTION_STRING }}
+
+          Authentication.Google.ClientId: ${{ secrets.AUTH_GOOGLE_CLIENTID }}
+          Authentication.Google.ClientSecret: ${{ secrets.AUTH_GOOGLE_CLIENTSECRET }}
+
+          S3.Endpoint: ${{ secrets.S3_ENDPOINT }}
+          S3.AccessKey: ${{ secrets.S3_ACCESSKEY }}
+          S3.SecretKey: ${{ secrets.S3_SECRETKEY }}
       - name: Log in to registry
         run: echo "${{ secrets.CR_PAT }}" | docker login ghcr.io -u $ --password-stdin
       - name: Set up Docker Buildx
