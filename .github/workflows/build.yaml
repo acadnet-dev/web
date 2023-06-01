@@ -1,4 +1,4 @@
-name: Build Docker image
+name: Build Docker image and deploy to ArgoCD
 
 on:
   push:
@@ -37,3 +37,16 @@ jobs:
           tags: ${{ vars.GHCR_REGISTRY }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Override ArgoCD Application tag with the newly pushed GHCR tag
+        uses: clowdhaus/argo-cd-action/@main
+        with:
+          version: 2.2.1
+          command: app set ${{ vars.ARGOCD_APP_NAME }} -p image.tag=${{ github.sha }}
+          options: |
+            --server ${{ secrets.ARGOCD_SERVER_URL }}
+            --auth-token ${{ secrets.ARGOCD_AUTH_TOKEN }}
