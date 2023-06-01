@@ -60,13 +60,11 @@ namespace Framework.Services
                 {
                     options.ClientId = configuration["Authentication:Google:ClientId"]!;
                     options.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
+                    options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
 
                 })
                 // .AddGithub
-                .AddCookie(options =>
-                {
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                });
+                .AddCookie();
         }
 
         public static void AddSettings(this IServiceCollection services, IConfiguration configuration)
