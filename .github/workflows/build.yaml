@@ -1,0 +1,25 @@
+name: Build Docker image
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Log in to registry
+        run: echo "${{ secrets.CR_PAT }}" | docker login ghcr.io -u $ --password-stdin
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build Docker image and push it to GHCR
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ${{ vars.GHCR_REGISTRY }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
