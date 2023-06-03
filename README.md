@@ -1,7 +1,5 @@
 # Acadnet Web App
 
-## Development
-
 ### Requirements
 * dotnet 7
 * docker + docker-compose
