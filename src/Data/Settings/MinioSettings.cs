@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Data.Settings
 {
-    public class MinioSettings
+    public class S3Settings
     {
         public string Endpoint { get; set; } = default!;
         public string AccessKey { get; set; } = default!;

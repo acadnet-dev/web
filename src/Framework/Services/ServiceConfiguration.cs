@@ -6,6 +6,7 @@ using Data;
 using Data.Identity;
 using Data.Settings;
 using Framework.Security;
+using Framework.Services.FileServices;
 using Framework.Services.ProblemServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +31,12 @@ namespace Framework.Services
                     .AddScoped<IProblemService, SimpleAcadnetISProblemService>(provider => provider.GetService<SimpleAcadnetISProblemService>()!);
 
             // File services
-            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<FileServiceFactory>();
+            services.AddScoped<MinioService>()
+                    .AddScoped<IFileService, MinioFileService>(provider => provider.GetService<MinioFileService>()!);
+            services.AddScoped<S3FileService>()
+                    .AddScoped<IFileService, S3FileService>(provider => provider.GetService<S3FileService>()!);
+
 
             // Minio services
             services.AddScoped<IMinioService, MinioService>();
@@ -70,7 +76,7 @@ namespace Framework.Services
         public static void AddSettings(this IServiceCollection services, IConfiguration configuration)
         {
             // Settings
-            services.Configure<MinioSettings>(configuration.GetSection("S3"));
+            services.Configure<S3Settings>(configuration.GetSection("S3"));
         }
 
         public static void AddApplicationCookie(this IServiceCollection services)

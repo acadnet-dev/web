@@ -11,9 +11,9 @@ namespace Framework.Services
 {
     public class MinioService : IMinioService
     {
-        private readonly IOptions<MinioSettings> _minioSettings;
+        private readonly IOptions<S3Settings> _minioSettings;
 
-        public MinioService(IOptions<MinioSettings> minioSettings)
+        public MinioService(IOptions<S3Settings> minioSettings)
         {
             _minioSettings = minioSettings;
         }

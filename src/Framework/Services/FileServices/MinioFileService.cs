@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data.S3;
 
-namespace Framework.Services
+namespace Framework.Services.FileServices
 {
-    public class FileService : IFileService
+    public class MinioFileService : IFileService
     {
         private readonly IMinioService _minioService;
 
-        public FileService(IMinioService minioService)
+        public MinioFileService(IMinioService minioService)
         {
             _minioService = minioService;
         }
