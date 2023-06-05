@@ -63,6 +63,9 @@
     <div class="row pb-30">
       <div class="col-auto">
         <div id="submission_result_container" style="display: none;">
+          <button class="button -sm -red-3 text-white mb-10" id="try_again" style="display: none;">Try again
+            <i class="fas fa-repeat ml-10 text-20"></i>
+          </button>
           <h4>Submission details</h4>
           <p>Id: <span id="submission_id" class="fw-600"></span></p>
           <p>Status: <span id="submission_status" class="fw-600">Not polled yet</span></p>
@@ -109,7 +112,15 @@
         $('#submission_upload_container').show();
       });
 
-    FilePond.create(inputElement, {
+    $('#try_again').click(() => {
+      $('#submission_result_container').hide();
+      $(this).hide();
+      $('#submission_upload_container').show();
+
+      pond.removeFiles();
+    });
+
+    const pond = FilePond.create(inputElement, {
       labelIdle: 'Upload your submission - <span class="filepond--label-action"> Browse </span>',
       server: {
         process: {
@@ -141,6 +152,7 @@
                       response.errors.forEach(error => {
                         $('#submission_result_container').append('<div><h6>' + error.type + '</h6><p style="white-space: pre-line">' + error.message + '</p></div>');
                       });
+                      $('#try_again').show();
                     }
 
                     if (response.status === 'Passed') {
