@@ -48,7 +48,7 @@ namespace Framework.Services.FileServices
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
             {
-                throw new Exception("Failed to delete file");
+                throw new Exception("Failed to delete file" + response.HttpStatusCode + " " + response.ResponseMetadata.ToString());
             }
         }
 
