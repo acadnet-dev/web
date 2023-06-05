@@ -69,7 +69,7 @@ namespace Web.Controllers
                 _logger.LogError("Error loading external login information.");
                 return RedirectToAction("Login", new { ReturnUrl = returnUrl });
             }
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, true);
             if (result.Succeeded)
             {
                 _logger.LogInformation($"User logged in with {info.LoginProvider} provider.");
