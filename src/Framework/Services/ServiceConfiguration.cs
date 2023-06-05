@@ -32,14 +32,13 @@ namespace Framework.Services
 
             // File services
             services.AddScoped<FileServiceFactory>();
-            services.AddScoped<MinioService>()
+            services.AddScoped<MinioFileService>()
                     .AddScoped<IFileService, MinioFileService>(provider => provider.GetService<MinioFileService>()!);
             services.AddScoped<S3FileService>()
                     .AddScoped<IFileService, S3FileService>(provider => provider.GetService<S3FileService>()!);
 
-
-            // Minio services
-            services.AddScoped<IMinioService, MinioService>();
+            // Checker services
+            services.AddScoped<ICheckerService, CheckerService>();
         }
 
         public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
@@ -77,6 +76,7 @@ namespace Framework.Services
         {
             // Settings
             services.Configure<S3Settings>(configuration.GetSection("S3"));
+            services.Configure<CheckerSettings>(configuration.GetSection("Checker"));
         }
 
         public static void AddApplicationCookie(this IServiceCollection services)

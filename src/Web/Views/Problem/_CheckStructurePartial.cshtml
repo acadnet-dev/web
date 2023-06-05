@@ -70,13 +70,15 @@
       <span class='@(complete ? "text-green-5" : "")'><i class='fas fa-down-long text-20 mr-5'></i>TODO: add necessary
         files</span>
       <p class='text-20 @(complete ? "text-green-5" : "")'>All files uploaded</p>
-      <span><i class='fas fa-down-long text-20 mr-5'></i>TODO: check if good solution passes tests</span>
-      <p class='text-20'>Ready to solve</p>
-      @if (complete)
+      <span class='@(Model.SolutionOk ? "text-green-5" : "")'><i class='fas fa-down-long text-20 mr-5'></i>TODO: check
+        if good solution passes tests</span>
+      <p class='text-20 @(Model.SolutionOk ? "text-green-5" : "")'>Ready to solve</p>
+      @if (complete && !Model.SolutionOk)
       {
-        <a class="button -md -yellow-1 text-white -icon mt-20" type="submit">Check good solution passes tests (Submit)
+        <button class="button -md -yellow-1 text-white -icon mt-20 check-solution">Check good solution passes tests
+          (Submit)
           <i class="fas fa-check ml-10"></i>
-        </a>
+        </button>
       }
     </div>
   </div>

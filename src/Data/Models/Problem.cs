@@ -21,5 +21,9 @@ namespace Data.Models
 
         [Column(TypeName = "varchar(255)")]
         public ProblemType Type { get; set; } = default!;
+
+        public ICollection<Submission> Submissions { get; set; } = default!;
+
+        public Submission? SolutionSubmission { get; set; } = default!;
     }
 }

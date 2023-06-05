@@ -11,24 +11,30 @@ using CommunityToolkit.HighPerformance.Helpers;
 using System.Text;
 using System.Web;
 using Framework.Services.ProblemServices;
+using Framework.Services.FileServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers;
 
+[Authorize]
 public class ProblemController : AcadnetController
 {
     private readonly ProblemServiceFactory _problemServiceFactory;
     private readonly ICourseService _categoryService;
     private readonly IFileService _fileService;
+    private readonly ICheckerService _checkerService;
 
     public ProblemController(
         ProblemServiceFactory problemServiceFactory,
         ICourseService categoryService,
-        IFileService fileService
+        FileServiceFactory fileServiceFactory,
+        ICheckerService checkerService
     )
     {
         _problemServiceFactory = problemServiceFactory;
         _categoryService = categoryService;
-        _fileService = fileService;
+        _fileService = fileServiceFactory.GetFileService();
+        _checkerService = checkerService;
     }
 
     [HttpGet]
@@ -236,6 +242,14 @@ public class ProblemController : AcadnetController
         _output.RefTestsCount = _files.Count(x => x.FileName.StartsWith("test") && x.FileName.EndsWith(".ref"));
         _output.RefTestsError = _output.RefTestsCount == 0 ? "no output tests found" : null;
 
+        _output.SolutionOk = _problem.SolutionSubmission?.Status == SubmissionStatus.Passed;
+
+        // if solution is ok, update problem status
+        if (_output.SolutionOk)
+        {
+            _problemService.MakeProblemReady(_problem);
+        }
+
         return PartialView("_CheckStructurePartial", _output);
     }
 
@@ -265,5 +279,67 @@ public class ProblemController : AcadnetController
 
 
         return File(_memorySource.ToArray(), "text/plain", $"{_problem.Name}.cpp");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> CheckSolution([FromQuery] int? problemId)
+    {
+        if (problemId == null)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var _problemService = _problemServiceFactory.GetServiceById(problemId.Value);
+        var _problem = _problemService.GetProblem(problemId.Value);
+
+        if (_problem == null)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        // download solution
+        var _solution = _problemService.GetProblemSolution(_problem);
+
+        if (_solution == null)
+        {
+            AddError("Solution not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var submission = await _checkerService.CreateSubmissionAsync(_solution, _problem, SecurityContext.User!);
+
+        _problemService.AddSolutionSubmission(_problem, submission);
+
+        return Json(new { submissionId = submission.Id });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> CheckSubmission([FromQuery] string? submissionId)
+    {
+        if (submissionId == null)
+        {
+            AddError("Submission not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var submission = await _checkerService.GetSubmissionAsync(submissionId);
+
+        if (submission == null)
+        {
+            AddError("Submission not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        if (submission.Status == SubmissionStatus.Failed)
+        {
+            var _problemService = _problemServiceFactory.GetServiceById(submission.Problem.Id);
+            var errors = _problemService.GetSubmissionErrors(submission);
+
+            return Json(new { status = submission.Status.ToString(), errors });
+        }
+
+        return Json(new { status = submission.Status.ToString() });
     }
 }

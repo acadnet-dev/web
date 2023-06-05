@@ -3,32 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.S3;
+using Data.Settings;
+using Microsoft.Extensions.Options;
+using Minio;
 
 namespace Framework.Services.FileServices
 {
     public class MinioFileService : IFileService
     {
-        private readonly IMinioService _minioService;
+        private readonly IOptions<S3Settings> _minioSettings;
+        private MinioClient _client;
 
-        public MinioFileService(IMinioService minioService)
+        public MinioFileService(
+            IOptions<S3Settings> minioSettings
+        )
         {
-            _minioService = minioService;
+            _minioSettings = minioSettings;
+
+            var query = new MinioClient()
+                .WithEndpoint(_minioSettings.Value.Endpoint)
+                .WithCredentials(_minioSettings.Value.AccessKey, _minioSettings.Value.SecretKey);
+
+            if (_minioSettings.Value.WithSSL)
+            {
+                query = query.WithSSL();
+            }
+
+            _client = query.Build();
         }
 
         public async Task CreateBucketAsync(string bucketName)
         {
-            var client = _minioService.GetClient();
-
             // Make a bucket on the server, if not already present
             var beArgs = new Minio.BucketExistsArgs()
                 .WithBucket(bucketName);
 
-            bool found = client.BucketExistsAsync(beArgs).Result;
+            bool found = await _client.BucketExistsAsync(beArgs);
             if (!found)
             {
                 var mbArgs = new Minio.MakeBucketArgs()
                     .WithBucket(bucketName);
-                await client.MakeBucketAsync(mbArgs);
+                await _client.MakeBucketAsync(mbArgs);
             }
         }
 
@@ -38,7 +53,7 @@ namespace Framework.Services.FileServices
             var beArgs = new Minio.BucketExistsArgs()
                 .WithBucket(bucketName);
 
-            if (!await _minioService.GetClient().BucketExistsAsync(beArgs))
+            if (!await this._client.BucketExistsAsync(beArgs))
             {
                 return;
             }
@@ -47,18 +62,16 @@ namespace Framework.Services.FileServices
                 .WithBucket(bucketName)
                 .WithObject(fileName);
 
-            if (await _minioService.GetClient().StatObjectAsync(soArgs) == null)
+            if (await this._client.StatObjectAsync(soArgs) == null)
             {
                 return;
             }
-
-            var client = _minioService.GetClient();
 
             var removeObjectArgs = new Minio.RemoveObjectArgs()
                 .WithBucket(bucketName)
                 .WithObject(fileName);
 
-            await client.RemoveObjectAsync(removeObjectArgs);
+            await _client.RemoveObjectAsync(removeObjectArgs);
         }
 
         public async Task<S3Object?> DownloadFileAsync(string bucketName, string fileName)
@@ -66,14 +79,12 @@ namespace Framework.Services.FileServices
             // sync
             AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 
-            var client = _minioService.GetClient();
-
             // get stat object
             var soArgs = new Minio.StatObjectArgs()
                 .WithBucket(bucketName)
                 .WithObject(fileName);
 
-            var statObject = await client.StatObjectAsync(soArgs).ConfigureAwait(false);
+            var statObject = await _client.StatObjectAsync(soArgs).ConfigureAwait(false);
 
             if (statObject == null)
             {
@@ -99,7 +110,7 @@ namespace Framework.Services.FileServices
                     autoResetEvent.Set();
                 });
 
-            var stream = await client.GetObjectAsync(getObjectArgs).ConfigureAwait(false);
+            var stream = await _client.GetObjectAsync(getObjectArgs).ConfigureAwait(false);
 
             autoResetEvent.WaitOne();
 
@@ -111,12 +122,10 @@ namespace Framework.Services.FileServices
             // sync
             AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 
-            var client = _minioService.GetClient();
-
             var listObjectsArgs = new Minio.ListObjectsArgs()
                 .WithBucket(bucketName);
 
-            var observable = client.ListObjectsAsync(listObjectsArgs);
+            var observable = _client.ListObjectsAsync(listObjectsArgs);
 
             List<S3ObjectStat> objects = new List<S3ObjectStat>();
 
@@ -132,18 +141,16 @@ namespace Framework.Services.FileServices
 
         public async Task UploadFileAsync(S3Object s3object)
         {
-            var client = _minioService.GetClient();
-
             // Make a bucket on the server, if not already present
             var beArgs = new Minio.BucketExistsArgs()
                 .WithBucket(s3object.BucketName);
 
-            bool found = await client.BucketExistsAsync(beArgs).ConfigureAwait(false);
+            bool found = await _client.BucketExistsAsync(beArgs).ConfigureAwait(false);
             if (!found)
             {
                 var mbArgs = new Minio.MakeBucketArgs()
                     .WithBucket(s3object.BucketName);
-                await client.MakeBucketAsync(mbArgs).ConfigureAwait(false);
+                await _client.MakeBucketAsync(mbArgs).ConfigureAwait(false);
             }
 
             // Upload a file to bucket
@@ -154,7 +161,7 @@ namespace Framework.Services.FileServices
                 .WithContentType(s3object.ContentType)
                 .WithStreamData(s3object.Content);
 
-            await client.PutObjectAsync(putObjectArgs).ConfigureAwait(false);
+            await _client.PutObjectAsync(putObjectArgs).ConfigureAwait(false);
         }
     }
 }

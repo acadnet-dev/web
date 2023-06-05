@@ -18,6 +18,7 @@ namespace Data
         public DbSet<Course> Courses { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
         public DbSet<Problem> Problems { get; set; } = default!;
+        public DbSet<Submission> Submissions { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,6 +27,8 @@ namespace Data
             base.OnModelCreating(builder);
 
             builder.Entity<Course>().HasMany(c => c.Maintainers).WithMany(u => u.MaintainedCourses);
+
+            builder.Entity<Problem>().HasMany(p => p.Submissions).WithOne(s => s.Problem);
         }
     }
 }

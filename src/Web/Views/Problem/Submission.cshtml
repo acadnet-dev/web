@@ -1,0 +1,30 @@
+@model SubmissionViewModel
+
+@{
+  ViewData["Title"] = "Submission - " + Model.ProblemName;
+}
+
+<section class="page-header -type-1 mt-90">
+  <div class="container">
+    <div class="page-header__content">
+      <div class="row">
+        <div class="col-auto">
+          <div data-anim="slide-up delay-1">
+            <h1 class="page-header__title">Submission - @Model.ProblemName</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="layout-pt-md layout-pb-md">
+  <div data-anim="slide-up delay-2" class="container">
+    <div class="row y-gap-20 items-center justify-between pb-30">
+      <div class="col-md-4">
+        <input type="file" id="problem_files_pond" class="filepond" name="filepond" multiple data-allow-reorder="true"
+          data-max-file-size="5MB" data-max-files="30">
+      </div>
+    </div>
+  </div>
+</section>

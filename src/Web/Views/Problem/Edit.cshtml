@@ -25,6 +25,13 @@
       </div>
     </div>
     <div class="row y-gap-20 items-center justify-between pb-30">
+      <div id="submission_result_container" style="display: none;">
+        <h4>Submission details</h4>
+        <p>Id: <span id="submission_id" class="fw-600"></span></p>
+        <p>Status: <span id="submission_status" class="fw-600">Not polled yet</span></p>
+      </div>
+    </div>
+    <div class="row y-gap-20 items-center justify-between pb-30">
       <div class="col-md-4">
         <input type="file" id="problem_files_pond" class="filepond" name="filepond" multiple data-allow-reorder="true"
           data-max-file-size="5MB" data-max-files="30">
@@ -106,6 +113,56 @@
 
     document.addEventListener('FilePond:updatefiles', (e) => {
       checkProblemStructure();
+    });
+
+    let checkInterval = null;
+
+    // solution checker
+    $("#check_container").on('click', '.check-solution', function () {
+      var problemId = "@Model.Id";
+
+      // hide the check button
+      $(this).hide();
+
+      $.ajax({
+        url: '/problem/CheckSolution?problemId=' + problemId,
+        type: 'GET',
+        success: (response) => {
+          $('#submission_result_container').show();
+          $('#submission_id').text(response.submissionId);
+
+          checkInterval = setInterval(() => {
+            $.ajax({
+              url: '/problem/CheckSubmission?submissionId=' + response.submissionId,
+              type: 'GET',
+              success: (response) => {
+                $('#submission_status').text(response.status);
+
+                if (response.status !== 'Pending') {
+                  clearInterval(checkInterval);
+
+                  // show errors if any
+                  if (response.status === 'Failed') {
+                    response.errors.forEach(error => {
+                      $('#submission_result_container').append('<div><h6>' + error.type + '</h6><p style="white-space: pre-line">' + error.message + '</p></div>');
+                    });
+                  }
+
+                  if (response.status === 'Passed') {
+                    checkProblemStructure();
+                  }
+                }
+              },
+              error: (xhr, status, error) => {
+                notie.alert({type: 'error', text: error, position: 'bottom'});
+              }
+            });
+          }, 1000);
+        },
+        error: (xhr, status, error) => {
+          notie.alert({type: 'error', text: error, position: 'bottom'});
+        }
+      });
     });
   </script>
 }

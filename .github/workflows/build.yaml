@@ -25,6 +25,8 @@ jobs:
           S3.Endpoint: ${{ secrets.S3_ENDPOINT }}
           S3.AccessKey: ${{ secrets.S3_ACCESSKEY }}
           S3.SecretKey: ${{ secrets.S3_SECRETKEY }}
+
+          Checker.Endpoint: ${{ vars.CHECKER_ENDPOINT }}
       - name: Log in to registry
         run: echo "${{ secrets.CR_PAT }}" | docker login ghcr.io -u $ --password-stdin
       - name: Set up Docker Buildx

@@ -33,5 +33,7 @@ namespace Web.Models.Problem
 
         public int RefTestsCount { get; set; } = default!;
         public string? RefTestsError { get; set; }
+
+        public bool SolutionOk { get; set; } = default!;
     }
 }
