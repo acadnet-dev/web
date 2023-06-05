@@ -105,10 +105,47 @@ public class ProblemController : AcadnetController
         {
             Id = _problem.Id,
             Name = _problem.Name,
-            StatementHtml = _problemService.GetProblemStatementHtml(_problem)
+            StatementHtml = _problemService.GetProblemStatementHtml(_problem),
+            IsSolved = _problemService.HasSolvedProblem(_problem, SecurityContext.User!)
         };
 
         return View(_output);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UploadSubimission([FromQuery] int? problemId = default!)
+    {
+        if (problemId == null)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var _problemService = _problemServiceFactory.GetServiceById(problemId.Value);
+        var _problem = _problemService.GetProblem(problemId.Value);
+
+        if (_problem == null || _problem.Status != ProblemStatus.Ready)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var file = Request.Form.Files[0];
+        // read file and save it to file service
+        var _solution = new S3Object
+        {
+            BucketName = _problem.FilesBucketName,
+            FileName = file.FileName,
+            ContentType = file.ContentType
+        };
+
+        _solution.Content = file.OpenReadStream();
+
+        var submission = await _checkerService.CreateSubmissionAsync(_solution, _problem, SecurityContext.User!);
+
+        _problemService.AddSolutionSubmission(_problem, submission);
+
+        return Json(new { submissionId = submission.Id });
     }
 
     [HttpGet]

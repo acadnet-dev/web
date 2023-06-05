@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data;
+using Data.Identity;
 using Data.Models;
 using Data.Models.Enums;
 using Data.S3;
@@ -30,6 +31,13 @@ namespace Framework.Services.ProblemServices
         public void AddSolutionSubmission(Problem problem, Submission submission)
         {
             problem.SolutionSubmission = submission;
+            problem.Submissions.Add(submission);
+
+            _database.SaveChanges();
+        }
+
+        public void AddSubmission(Problem problem, Submission submission)
+        {
             problem.Submissions.Add(submission);
 
             _database.SaveChanges();
@@ -140,6 +148,11 @@ namespace Framework.Services.ProblemServices
             }
 
             return SubmissionStatus.Passed;
+        }
+
+        public bool HasSolvedProblem(Problem problem, User user)
+        {
+            return _database.Submissions.Any(x => x.Problem == problem && x.User == user && x.Status == SubmissionStatus.Passed);
         }
 
         public void MakeProblemReady(Problem problem)

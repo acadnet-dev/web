@@ -20,16 +20,146 @@
 
 <section class="">
   <div data-anim="slide-up delay-2" class="container">
-    <div class="row y-gap-20 items-start justify-between pb-30">
+    <div class="row items-start justify-between pb-30">
       <div class="col-auto markdown-container">
         @Html.Raw(Model.StatementHtml)
       </div>
-      <div class="col-auto text-center">
-        <a asp-action="DownloadSource" asp-route-problemId="@Model.Id" target="_blank"
-          class="button -md -outline-purple-1 text-purple-1 -icon" type="submit">Download sources
-          <i class="fas fa-cloud-arrow-down ml-10"></i>
-        </a>
+      <div class="col-auto text-center" id="solve_options_container">
+        <div class="markdown-container">
+          <h6>Solve the problem on your computer</h6>
+          <div class="mt-10">
+            <a asp-action="DownloadSource" asp-route-problemId="@Model.Id" target="_blank"
+              class="button -md -outline-purple-1 text-purple-1 -icon">Download sources
+              <i class="fas fa-file-arrow-down ml-10 text-20"></i>
+            </a>
+          </div>
+          <div id="submission_upload_container">
+            <p class="my-2">and</p>
+            <input type="file" id="submission_pond" class="filepond" name="filepond" multiple data-allow-reorder="true"
+              data-max-file-size="5MB" data-max-files="1">
+          </div>
+        </div>
+        <h6 class="mt-30">or</h6>
+        <div class="markdown-container mt-30">
+          <h6>Solve the problem online</h6>
+          <div class="mt-10">
+            <a href="#" class="button -md -orange-1 text-white -icon">Solve online
+              <i class="fas fa-cloud-arrow-up ml-10 text-20"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-auto text-center" id="solved_container" style="display: none;">
+        <div class="markdown-container">
+          <h6 class="text-green-5">You have already solved this problem</h6>
+          <div class="mt-10">
+            <button class="button -md -purple-1 text-white -icon" id="solve_again">Solve again
+              <i class="fas fa-repeat ml-10 text-20"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pb-30">
+      <div class="col-auto">
+        <div id="submission_result_container" style="display: none;">
+          <h4>Submission details</h4>
+          <p>Id: <span id="submission_id" class="fw-600"></span></p>
+          <p>Status: <span id="submission_status" class="fw-600">Not polled yet</span></p>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+@section Styles {
+  <!-- Filepond stylesheet -->
+  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+  <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+}
+
+@section Scripts {
+  <!-- FilePond -->
+  <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+  <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+  <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+
+  <script>
+    $.fn.filepond.registerPlugin(FilePondPluginFileValidateSize);
+
+    const inputElement = document.querySelector('input[id="submission_pond"]');
+
+    let checkInterval = null;
+
+    function problemSolved() {
+      $('#solve_options_container').hide();
+      $('#solved_container').show();
+    }
+
+    @if (Model.IsSolved)
+    {
+      <text>
+          problemSolved();
+      </text>
+    }
+
+      $('#solve_again').click(() => {
+        $('#solve_options_container').show();
+        $('#solved_container').hide();
+      });
+
+    FilePond.create(inputElement, {
+      labelIdle: 'Upload your submission - <span class="filepond--label-action"> Browse </span>',
+      server: {
+        process: {
+          url: '/problem/UploadSubimission?problemId=@Model.Id',
+          onerror: (response) => {
+            notie.alert({type: 'error', text: response, position: 'bottom'});
+            return response;
+          },
+          onload: (response) => {
+            response = JSON.parse(response);
+
+            $('#submission_result_container').show();
+            $('#submission_id').text(response.submissionId);
+            $('#submission_upload_container').hide();
+
+            checkInterval = setInterval(() => {
+              $.ajax({
+                url: '/problem/CheckSubmission?submissionId=' + response.submissionId,
+                type: 'GET',
+                success: (response) => {
+                  $('#submission_status').text(response.status);
+
+                  if (response.status !== 'Pending') {
+                    clearInterval(checkInterval);
+
+                    // show errors if any
+                    if (response.status === 'Failed') {
+                      $('#submission_status').attr('class', 'text-red-1 fw-600');
+                      response.errors.forEach(error => {
+                        $('#submission_result_container').append('<div><h6>' + error.type + '</h6><p style="white-space: pre-line">' + error.message + '</p></div>');
+                      });
+                    }
+
+                    if (response.status === 'Passed') {
+                      $('#submission_status').attr('class', 'text-green-5 fw-600');
+                      problemSolved();
+                    }
+                  } else {
+                    $('#submission_status').attr('class', 'text-purple-4 fw-600');
+                  }
+                },
+                error: (xhr, status, error) => {
+                  notie.alert({type: 'error', text: error, position: 'bottom'});
+                }
+              });
+            }, 1000);
+
+            return response;
+          }
+        },
+      }
+    });
+  </script>
+}
