@@ -123,7 +123,7 @@ namespace Framework.Services.ProblemServices
                     errors.Add(new SubmissionError
                     {
                         Type = "Test failed",
-                        Message = string.Format("Expected\n{0}\nbut got\n{1}", testResult["exec_result"]["actual"], testResult["exec_result"]["ref"])
+                        Message = string.Format("Expected\n<code>{0}</code>\nActual\n<code>{1}</code>", testResult["exec_result"]["ref"], testResult["exec_result"]["actual"])
                     });
                 }
             }

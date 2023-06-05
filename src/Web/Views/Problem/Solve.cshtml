@@ -114,10 +114,12 @@
 
     $('#try_again').click(() => {
       $('#submission_result_container').hide();
-      $(this).hide();
       $('#submission_upload_container').show();
 
       pond.removeFiles();
+      $(".test-error").remove();
+
+      $('#try_again').hide();
     });
 
     const pond = FilePond.create(inputElement, {
@@ -150,7 +152,7 @@
                     if (response.status === 'Failed') {
                       $('#submission_status').attr('class', 'text-red-1 fw-600');
                       response.errors.forEach(error => {
-                        $('#submission_result_container').append('<div><h6>' + error.type + '</h6><p style="white-space: pre-line">' + error.message + '</p></div>');
+                        $('#submission_result_container').append('<div class="test-error mt-10"><h6>' + error.type + '</h6><p style="white-space: pre-line">' + error.message + '</p></div>');
                       });
                       $('#try_again').show();
                     }
@@ -161,6 +163,7 @@
                     }
                   } else {
                     $('#submission_status').attr('class', 'text-purple-4 fw-600');
+                    $('#submission_status').text('Checking... Do NOT refresh the page!');
                   }
                 },
                 error: (xhr, status, error) => {
