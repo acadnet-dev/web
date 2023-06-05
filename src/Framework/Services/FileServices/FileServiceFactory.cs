@@ -25,14 +25,14 @@ namespace Framework.Services.FileServices
 
         public IFileService GetFileService()
         {
-            // if (!_env.IsDevelopment())
-            // {
-            return (IFileService)_serviceProvider.GetService(typeof(MinioFileService))!;
-            // }
-            // else
-            // {
-            // return (IFileService)_serviceProvider.GetService(typeof(S3FileService))!;
-            // }
+            if (_env.IsDevelopment())
+            {
+                return (IFileService)_serviceProvider.GetService(typeof(MinioFileService))!;
+            }
+            else
+            {
+                return (IFileService)_serviceProvider.GetService(typeof(S3FileService))!;
+            }
         }
     }
 }
