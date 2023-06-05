@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data.Identity;
 using Data.Models;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
-    public class Database : IdentityDbContext<User, Role, string>
+    public class Database : IdentityDbContext<User, Role, string>, IDataProtectionKeyContext
     {
         public Database(DbContextOptions<Database> options) : base(options)
         {
@@ -19,6 +20,9 @@ namespace Data
         public DbSet<Category> Categories { get; set; } = default!;
         public DbSet<Problem> Problems { get; set; } = default!;
         public DbSet<Submission> Submissions { get; set; } = default!;
+
+        // Data protection
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -35,6 +35,9 @@ builder.Services.AddAutoMapper(typeof(AutoMapperConfigProfile));
 // Application cookie
 builder.Services.AddApplicationCookie();
 
+// Data protection
+builder.Services.AddDataProtection(builder.Configuration);
+
 var app = builder.Build();
 
 // Initialize database

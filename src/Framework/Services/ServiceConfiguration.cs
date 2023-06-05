@@ -8,6 +8,7 @@ using Data.Settings;
 using Framework.Security;
 using Framework.Services.FileServices;
 using Framework.Services.ProblemServices;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -67,9 +68,7 @@ namespace Framework.Services
                     options.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
                     options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
 
-                })
-                // .AddGithub
-                .AddCookie();
+                });
         }
 
         public static void AddSettings(this IServiceCollection services, IConfiguration configuration)
@@ -87,6 +86,14 @@ namespace Framework.Services
                 options.LoginPath = "/Auth/Login";
                 options.LogoutPath = "/Auth/Logout";
             });
+        }
+
+        public static void AddDataProtection(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Data protection
+            services.AddDataProtection()
+                .PersistKeysToDbContext<Database>()
+                .SetApplicationName(configuration["DataProtection:ApplicationName"]!);
         }
     }
 }
