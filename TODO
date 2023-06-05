@@ -12,7 +12,7 @@ Dev:
   ✔ check uploaded files and display result to user @done(23-05-26 02:10)
   ✔ problem view page @done(23-05-26 12:38)
   ✔ split problem into types @done(23-06-05 12:20)
-  ☐ problem check good solution passes test in edit page
+  ✔ problem check good solution passes test in edit page @done(23-06-05 22:30)
   
 Not so important:
   ☐ add main page content
@@ -26,3 +26,4 @@ Nice features:
   ☐ course show estimated time to complete
   ☐ different languages
   ☐ image editor for course icon
+  ☐ profile page with solved problems
