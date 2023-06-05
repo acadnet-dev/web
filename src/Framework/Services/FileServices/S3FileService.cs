@@ -35,21 +35,11 @@ namespace Framework.Services.FileServices
         public async Task CreateBucketAsync(string bucketName)
         {
             var response = await _client.PutBucketAsync(bucketName);
-
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
-            {
-                throw new Exception("Failed to create bucket");
-            }
         }
 
         public async Task DeleteFileAsync(string bucketName, string fileName)
         {
             var response = await _client.DeleteObjectAsync(bucketName, fileName);
-
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
-            {
-                throw new Exception("Failed to delete file" + response.HttpStatusCode + " " + response.ResponseMetadata.ToString());
-            }
         }
 
         public async Task<S3Object?> DownloadFileAsync(string bucketName, string fileName)
@@ -61,11 +51,6 @@ namespace Framework.Services.FileServices
             };
 
             var response = await _client.GetObjectAsync(request);
-
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
-            {
-                return null;
-            }
 
             return new S3Object
             {
@@ -86,11 +71,6 @@ namespace Framework.Services.FileServices
 
             var response = _client.ListObjectsAsync(request).Result;
 
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
-            {
-                throw new Exception("Failed to get files in bucket");
-            }
-
             return response.S3Objects.Select(x => new S3ObjectStat
             {
                 BucketName = x.BucketName,
@@ -109,11 +89,6 @@ namespace Framework.Services.FileServices
             };
 
             var response = await _client.PutObjectAsync(request);
-
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
-            {
-                throw new Exception("Failed to upload file");
-            }
         }
     }
 }
