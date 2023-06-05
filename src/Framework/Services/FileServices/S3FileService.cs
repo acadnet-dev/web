@@ -52,13 +52,18 @@ namespace Framework.Services.FileServices
 
             var response = await _client.GetObjectAsync(request);
 
-            return new S3Object
+            var _output = new S3Object
             {
                 BucketName = bucketName,
                 FileName = fileName,
-                Content = response.ResponseStream,
+                Content = new MemoryStream(),
                 ContentType = response.Headers.ContentType
             };
+
+            await response.ResponseStream.CopyToAsync(_output.Content);
+            _output.Content.Position = 0;
+
+            return _output;
         }
 
         public ICollection<S3ObjectStat> GetFilesInBucket(string bucketName)
