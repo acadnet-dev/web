@@ -37,16 +37,15 @@
     </div>
     <!-- preloader end -->
 
-    <main class="main-content">
+    <main class="main-content d-flex flex-column" style="min-height: 100vh;">
 
         <partial name="_Header" />
 
-        <div class="content-wrapper  js-content-wrapper">
-
+        <div class="content-wrapper  js-content-wrapper flex-grow-1">
             @RenderBody()
-
-            <partial name="_Footer" />
         </div>
+
+        <partial name="_Footer" />
     </main>
 
     <!-- JavaScript -->
