@@ -20,6 +20,7 @@ namespace Data
         public DbSet<Category> Categories { get; set; } = default!;
         public DbSet<Problem> Problems { get; set; } = default!;
         public DbSet<Submission> Submissions { get; set; } = default!;
+        public DbSet<Workspace> Workspaces { get; set; } = default!;
 
         // Data protection
         public DbSet<DataProtectionKey> DataProtectionKeys { get; set; } = default!;

@@ -1,5 +1,6 @@
 using Data;
 using Data.Identity;
+using Framework.Middleware;
 using Framework.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,10 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseWebSockets();
+
+app.UseMiddleware<WorkspaceReverseProxyMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

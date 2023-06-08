@@ -24,5 +24,8 @@ namespace Framework.Services
         // submission management
         public SubmissionStatus GetSubmissionStatus(Submission submission);
         public ICollection<SubmissionError> GetSubmissionErrors(Submission submission);
+
+        // workspaces
+        public ICollection<S3Object> GetWorkspaceFiles(Problem problem);
     }
 }

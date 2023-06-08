@@ -150,6 +150,25 @@ namespace Framework.Services.ProblemServices
             return SubmissionStatus.Passed;
         }
 
+        public ICollection<S3Object> GetWorkspaceFiles(Problem problem)
+        {
+            // return main.cpp and README.md
+            var files = new List<S3Object>();
+
+            var main = _fileService.DownloadFileAsync(problem.FilesBucketName, "main.cpp").Result;
+            if (main == null)
+                throw new Exception($"Source not found - bucketName: {problem.FilesBucketName}, fileName: main.cpp");
+
+            var readme = _fileService.DownloadFileAsync(problem.FilesBucketName, "README.md").Result;
+            if (readme == null)
+                throw new Exception($"Source not found - bucketName: {problem.FilesBucketName}, fileName: README.md");
+
+            files.Add(main);
+            files.Add(readme);
+
+            return files;
+        }
+
         public bool HasSolvedProblem(Problem problem, User user)
         {
             return _database.Submissions.Any(x => x.Problem == problem && x.User == user && x.Status == SubmissionStatus.Passed);

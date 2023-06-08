@@ -40,6 +40,9 @@ namespace Framework.Services
 
             // Checker services
             services.AddScoped<ICheckerService, CheckerService>();
+
+            // Workspace services
+            services.AddScoped<IWorkspaceService, WorkspaceService>();
         }
 
         public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
@@ -76,6 +79,7 @@ namespace Framework.Services
             // Settings
             services.Configure<S3Settings>(configuration.GetSection("S3"));
             services.Configure<CheckerSettings>(configuration.GetSection("Checker"));
+            services.Configure<WorkspacesSettings>(configuration.GetSection("Workspaces"));
         }
 
         public static void AddApplicationCookie(this IServiceCollection services)

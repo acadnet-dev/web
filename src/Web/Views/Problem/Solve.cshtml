@@ -43,7 +43,8 @@
         <div class="markdown-container mt-30">
           <h6>Solve the problem online</h6>
           <div class="mt-10">
-            <a href="#" class="button -md -orange-1 text-white -icon">Solve online
+            <a asp-action="LaunchWorkspace" asp-controller="Workspace" asp-route-problemId="@Model.Id"
+              class="button -md -orange-1 text-white -icon">Solve online
               <i class="fas fa-cloud-arrow-up ml-10 text-20"></i>
             </a>
           </div>
