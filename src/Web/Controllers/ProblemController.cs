@@ -23,18 +23,21 @@ public class ProblemController : AcadnetController
     private readonly ICourseService _categoryService;
     private readonly IFileService _fileService;
     private readonly ICheckerService _checkerService;
+    private readonly IWorkspaceService _workspaceService;
 
     public ProblemController(
         ProblemServiceFactory problemServiceFactory,
         ICourseService categoryService,
         FileServiceFactory fileServiceFactory,
-        ICheckerService checkerService
+        ICheckerService checkerService,
+        IWorkspaceService workspaceService
     )
     {
         _problemServiceFactory = problemServiceFactory;
         _categoryService = categoryService;
         _fileService = fileServiceFactory.GetFileService();
         _checkerService = checkerService;
+        _workspaceService = workspaceService;
     }
 
     [HttpGet]
@@ -110,42 +113,6 @@ public class ProblemController : AcadnetController
         };
 
         return View(_output);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> UploadSubimission([FromQuery] int? problemId = default!)
-    {
-        if (problemId == null)
-        {
-            AddError("Problem not found!");
-            return RedirectToAction("Index", "Course");
-        }
-
-        var _problemService = _problemServiceFactory.GetServiceById(problemId.Value);
-        var _problem = _problemService.GetProblem(problemId.Value);
-
-        if (_problem == null || _problem.Status != ProblemStatus.Ready)
-        {
-            AddError("Problem not found!");
-            return RedirectToAction("Index", "Course");
-        }
-
-        var file = Request.Form.Files[0];
-        // read file and save it to file service
-        var _solution = new S3Object
-        {
-            BucketName = _problem.FilesBucketName,
-            FileName = file.FileName,
-            ContentType = file.ContentType
-        };
-
-        _solution.Content = file.OpenReadStream();
-
-        var submission = await _checkerService.CreateSubmissionAsync(_solution, _problem, SecurityContext.User!);
-
-        _problemService.AddSolutionSubmission(_problem, submission);
-
-        return Json(new { submissionId = submission.Id });
     }
 
     [HttpGet]
@@ -348,6 +315,50 @@ public class ProblemController : AcadnetController
         var submission = await _checkerService.CreateSubmissionAsync(_solution, _problem, SecurityContext.User!);
 
         _problemService.AddSolutionSubmission(_problem, submission);
+
+        return Json(new { submissionId = submission.Id });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UploadSubimission([FromQuery] int? problemId = default!)
+    {
+        if (problemId == null)
+        {
+            // maybe we are in a vscode workspace
+            // try to get problem id from workspaceid from cookie
+            var workspaceId = Request.Cookies[Consts.WORKSPACE_ID_COOKIE_NAME];
+
+            if (workspaceId == null)
+            {
+                return BadRequest("ProblemId / WorkspaceId not found!");
+            }
+
+            problemId = _workspaceService.GetProblem(workspaceId).Id;
+        }
+
+        var _problemService = _problemServiceFactory.GetServiceById(problemId.Value);
+        var _problem = _problemService.GetProblem(problemId.Value);
+
+        if (_problem == null || _problem.Status != ProblemStatus.Ready)
+        {
+            AddError("Problem not found!");
+            return RedirectToAction("Index", "Course");
+        }
+
+        var file = Request.Form.Files[0];
+        // read file and save it to file service
+        var _solution = new S3Object
+        {
+            BucketName = _problem.FilesBucketName,
+            FileName = file.FileName,
+            ContentType = file.ContentType
+        };
+
+        _solution.Content = file.OpenReadStream();
+
+        var submission = await _checkerService.CreateSubmissionAsync(_solution, _problem, SecurityContext.User!);
+
+        _problemService.AddSubmission(_problem, submission);
 
         return Json(new { submissionId = submission.Id });
     }

@@ -12,5 +12,6 @@ namespace Framework.Services
         string GetWorkspaceId(Problem problem, User user);
         Task<string> GetWorkspaceUrlAsync(string workspaceId);
         string GetWorkspaceProblemPath(string workspaceId);
+        Problem GetProblem(string workspaceId);
     }
 }

@@ -123,5 +123,14 @@ namespace Framework.Services
 
             return "/home/workspace/" + workspace.Problem.Name;
         }
+
+        public Problem GetProblem(string workspaceId)
+        {
+            var workspace = _database.Workspaces.Include(x => x.Problem).FirstOrDefault(x => x.Id == workspaceId);
+            if (workspace == null)
+                throw new Exception("Workspace doesn't exist");
+
+            return workspace.Problem;
+        }
     }
 }
