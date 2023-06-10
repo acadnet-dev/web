@@ -320,7 +320,7 @@ public class ProblemController : AcadnetController
     }
 
     [HttpPost]
-    public async Task<IActionResult> UploadSubimission([FromQuery] int? problemId = default!)
+    public async Task<IActionResult> UploadSubmission([FromQuery] int? problemId = default!)
     {
         if (problemId == null)
         {

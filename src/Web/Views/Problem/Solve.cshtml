@@ -127,7 +127,7 @@
       labelIdle: 'Upload your submission - <span class="filepond--label-action"> Browse </span>',
       server: {
         process: {
-          url: '/problem/UploadSubimission?problemId=@Model.Id',
+          url: '/problem/UploadSubmission?problemId=@Model.Id',
           onerror: (response) => {
             notie.alert({type: 'error', text: response, position: 'bottom'});
             return response;
