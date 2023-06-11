@@ -13,17 +13,21 @@ Dev:
   ✔ problem view page @done(23-05-26 12:38)
   ✔ split problem into types @done(23-06-05 12:20)
   ✔ problem check good solution passes test in edit page @done(23-06-05 22:30)
+
+  ☐ add compilation error output to problem check and vscode extension
+  ☐ add automatical removal of vscode workspaces after some time
+  ☐ add more problems
+  ☐ main page content
+  ☐ course show number of problems
+  ☐ image editor for course icon
+  ☐ profile page with solved problems
+  ☐ different color for solved problems
+
   
 Not so important:
   ☐ add main page content
 
-Docs:
-  ☐ UML db diagram - courses, category and exercise 
-
 Nice features:
   ☐ add breadcrumbs to courses and categories
-  ☐ course show number of problems
   ☐ course show estimated time to complete
   ☐ different languages
-  ☐ image editor for course icon
-  ☐ profile page with solved problems
