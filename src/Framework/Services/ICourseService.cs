@@ -18,5 +18,6 @@ namespace Framework.Services
         public bool IsMaintainer(int courseId, User user);
         public void CreateCategory(Course course, Category category, int? parentCategoryId = default!);
         public int GetProblemsCount(Course course);
+        public bool IsProblemSolved(int problemId, User user);
     }
 }

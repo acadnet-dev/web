@@ -29,5 +29,6 @@ namespace Web.Models.Courses
         public int Id { get; set; } = default!;
         public string Name { get; set; } = default!;
         public ProblemStatus Status { get; set; } = ProblemStatus.Hidden;
+        public bool IsSolved { get; set; } = default!;
     }
 }

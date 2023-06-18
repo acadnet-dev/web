@@ -98,6 +98,11 @@ public class CourseController : AcadnetController
 
             model.CategoryName = _categoryParent.Name;
             model.Problems = Mapper.Map<List<ProblemInCategoryViewModel>>(_categoryParent.Problems);
+
+            foreach (var _problem in model.Problems)
+            {
+                _problem.IsSolved = SecurityContext.IsAuthenticated ? _courseService.IsProblemSolved(_problem.Id, SecurityContext.User!) : false;
+            }
         }
 
         return View(model);

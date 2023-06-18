@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Data;
 using Data.Identity;
 using Data.Models;
+using Data.Models.Enums;
 using Framework.Security;
 using Microsoft.EntityFrameworkCore;
 
@@ -92,6 +93,14 @@ namespace Framework.Services
             return _database.Courses.AsQueryable()
                 .Where(c => c.Id == courseId)
                 .Any(c => c.Maintainers.Any(m => m.Id == user.Id));
+        }
+
+        public bool IsProblemSolved(int problemId, User user)
+        {
+            return _database.Submissions.AsQueryable()
+                .Where(s => s.Problem.Id == problemId)
+                .Where(s => s.User == user)
+                .Any(s => s.Status == SubmissionStatus.Passed);
         }
     }
 }
