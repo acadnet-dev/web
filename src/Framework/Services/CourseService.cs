@@ -80,6 +80,13 @@ namespace Framework.Services
             return _query.ToList();
         }
 
+        public int GetProblemsCount(Course course)
+        {
+            return _database.Problems.AsQueryable()
+                .Where(p => p.Category!.Course == course)
+                .Count();
+        }
+
         public bool IsMaintainer(int courseId, User user)
         {
             return _database.Courses.AsQueryable()

@@ -24,7 +24,20 @@ public class CourseController : AcadnetController
     {
         var _courses = _courseService.GetCourses(filterMaintainer);
 
-        return View(Mapper.Map<List<CourseViewModel>>(_courses));
+        var _output = new List<CourseViewModel>();
+
+        foreach (var _course in _courses)
+        {
+            _output.Add(new CourseViewModel
+            {
+                Id = _course.Id,
+                Name = _course.Name,
+                Description = _course.Description,
+                ProblemsCount = _courseService.GetProblemsCount(_course)
+            });
+        }
+
+        return View(_output);
     }
 
     [HttpGet]
