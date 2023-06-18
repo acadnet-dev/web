@@ -15,14 +15,17 @@ namespace Framework.Services
     {
         private readonly Database _database;
         private readonly ISecurityContext _securityContext;
+        private readonly IProblemService _problemService;
 
         public CourseService(
             Database database,
-            ISecurityContext securityContext
+            ISecurityContext securityContext,
+            IProblemService problemService
         )
         {
             _database = database;
             _securityContext = securityContext;
+            _problemService = problemService;
         }
 
         public void CreateCategory(Course course, Category category, int? parentCategoryId = null)
@@ -97,10 +100,7 @@ namespace Framework.Services
 
         public bool IsProblemSolved(int problemId, User user)
         {
-            return _database.Submissions.AsQueryable()
-                .Where(s => s.Problem.Id == problemId)
-                .Where(s => s.User == user)
-                .Any(s => s.Status == SubmissionStatus.Passed);
+            return _problemService.HasSolvedProblem(_database.Problems.Include(x => x.SolutionSubmission).First(x => x.Id == problemId), user);
         }
     }
 }

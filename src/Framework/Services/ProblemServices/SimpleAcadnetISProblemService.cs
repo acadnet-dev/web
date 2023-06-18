@@ -171,7 +171,7 @@ namespace Framework.Services.ProblemServices
 
         public bool HasSolvedProblem(Problem problem, User user)
         {
-            return _database.Submissions.Any(x => x.Problem == problem && x.User == user && x.Status == SubmissionStatus.Passed);
+            return _database.Submissions.Any(x => x.Problem == problem && x.User == user && x.Status == SubmissionStatus.Passed && problem.SolutionSubmission != x);
         }
 
         public void MakeProblemReady(Problem problem)
